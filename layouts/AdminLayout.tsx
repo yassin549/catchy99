@@ -30,7 +30,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <div className='flex'>
         <aside className='w-64 bg-white/30 dark:bg-gray-800/30 backdrop-blur-lg p-6 shadow-lg border-r border-white/20'>
           <div className='mb-10'>
-            <Link
+            <Link legacyBehavior
               href='/admin'
               className='text-2xl font-bold text-gray-800 dark:text-white'
             >
@@ -40,7 +40,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <nav>
             <ul className='space-y-2'>
               <li>
-                <Link
+                <Link legacyBehavior
                   href='/admin/products'
                   className='block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-white/50 dark:hover:bg-gray-700/50'
                 >
@@ -48,7 +48,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 </Link>
               </li>
               <li>
-                <Link
+                <Link legacyBehavior
                   href='/admin/orders'
                   className='block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-white/50 dark:hover:bg-gray-700/50'
                 >

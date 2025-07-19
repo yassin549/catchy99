@@ -21,6 +21,11 @@ export interface Address {
   country: string
 }
 
+export interface Category {
+  id: string;
+  name: string;
+}
+
 export type OrderStatus =
   | 'Pending'
   | 'Processing'
@@ -29,14 +34,14 @@ export type OrderStatus =
   | 'Cancelled'
 
 export interface Order {
-  id: string
-  items: CartItem[]
-  total: number
-  shippingAddress: Address
-  paymentMethod: 'Credit Card' | 'Cash on Delivery'
-  status: OrderStatus
-  createdAt: string
-  updatedAt: string
+  id: string;
+  items: CartItem[];
+  total: number;
+  shippingAddress: Address;
+  paymentMethod: 'Credit Card' | 'Cash on Delivery';
+  status: OrderStatus;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface User {

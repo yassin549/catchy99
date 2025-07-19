@@ -10,7 +10,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: theme.colors,
+      colors: {
+        ...theme.colors,
+
+      },
       opacity: theme.opacity,
       blur: theme.blur,
       textShadow: theme.accents,

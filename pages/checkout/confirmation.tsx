@@ -1,145 +1,97 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { FiCheckCircle, FiTruck, FiClock, FiMapPin } from 'react-icons/fi'
-import CircleLoader from '@/components/CircleLoader'
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Head from 'next/head';
+import { CheckCircle, Truck, Clock, MapPin, Loader2, AlertTriangle } from 'lucide-react';
 
 interface OrderConfirmationProps {
-  orderId: string
-  orderTotal: number
+  orderId: string;
+  orderTotal: number;
   shippingAddress: {
-    fullName: string
-    addressLine1: string
-    city: string
-    postalCode: string
-    country: string
-  }
+    fullName: string;
+    addressLine1: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
 }
 
-const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
-  orderId,
-  orderTotal,
-  shippingAddress,
-}) => {
+const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({ orderId, orderTotal, shippingAddress }) => {
   return (
-    <div className='container mx-auto px-4 py-16'>
-      <div className='max-w-4xl mx-auto'>
-        <div className='text-center mb-12'>
-          <FiCheckCircle className='w-24 h-24 mx-auto text-green-400 mb-4' />
-          <h1 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4'>
-            Thank You for Your Order!
-          </h1>
-          <p className='text-gray-400'>
-            Your order has been successfully placed and is being processed.
-          </p>
-        </div>
+    <>
+      <Head>
+        <title>Order Confirmation | Catchy</title>
+      </Head>
+      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center py-12 px-4">
+        <div className="max-w-2xl w-full mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-12">
+          <div className="text-center mb-10">
+            <CheckCircle className="w-20 h-20 mx-auto text-green-500 mb-5" />
+            <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white tracking-tight">
+              Thank You!
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
+              Your order has been placed successfully.
+            </p>
+          </div>
 
-        <div className='bg-white/5 dark:bg-gray-800/50 backdrop-blur-sm border border-white/10 rounded-2xl p-8'>
-          <div className='space-y-8'>
-            <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-white'>Order Summary</h2>
-              <div className='grid grid-cols-2 gap-4'>
-                <div>
-                  <p className='text-gray-400'>Order Number</p>
-                  <p className='font-medium text-white'>#{orderId}</p>
-                </div>
-                <div>
-                  <p className='text-gray-400'>Order Date</p>
-                  <p className='font-medium text-white'>
-                    {new Date().toLocaleDateString()}
-                  </p>
-                </div>
+          <div className="space-y-8">
+            <div className="bg-gray-100 dark:bg-gray-700/50 p-6 rounded-xl">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Order Summary</h2>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-600 dark:text-gray-400">Order Number:</span>
+                <span className="font-bold text-gray-800 dark:text-white">#{orderId}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 dark:text-gray-400">Order Total:</span>
+                <span className="font-bold text-xl text-indigo-600 dark:text-indigo-400">${orderTotal.toFixed(2)}</span>
               </div>
             </div>
 
-            <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-white'>
-                Shipping Information
-              </h2>
-              <div className='flex items-center space-x-2'>
-                <FiMapPin className='w-5 h-5 text-blue-400' />
-                <div>
-                  <p className='font-medium text-white'>
-                    {shippingAddress.fullName}
-                  </p>
-                  <p className='text-gray-400'>
-                    {shippingAddress.addressLine1}
-                  </p>
-                  <p className='text-gray-400'>
-                    {shippingAddress.city}, {shippingAddress.postalCode}
-                  </p>
-                  <p className='text-gray-400'>{shippingAddress.country}</p>
-                </div>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                <MapPin className="w-5 h-5 mr-3 text-indigo-500" /> Shipping Address
+              </h3>
+              <div className="text-gray-600 dark:text-gray-400 pl-8">
+                <p className="font-medium text-gray-700 dark:text-gray-300">{shippingAddress.fullName}</p>
+                <p>{shippingAddress.addressLine1}</p>
+                <p>{shippingAddress.city}, {shippingAddress.postalCode}</p>
+                <p>{shippingAddress.country}</p>
               </div>
             </div>
 
-            <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-white'>Order Status</h2>
-              <div className='bg-white/5 dark:bg-gray-800/50 p-4 rounded-lg border border-white/10'>
-                <div className='flex items-center space-x-4'>
-                  <FiTruck className='w-6 h-6 text-yellow-400' />
-                  <div>
-                    <p className='text-sm font-medium text-white'>Processing</p>
-                    <p className='text-sm text-gray-400'>
-                      Your order is being prepared
-                    </p>
-                  </div>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div className="flex items-center bg-blue-100 dark:bg-blue-900/50 p-4 rounded-lg">
+                    <Truck className="w-6 h-6 text-blue-500 mr-4" />
+                    <div>
+                        <p className="font-semibold text-blue-800 dark:text-blue-200">Estimated Delivery</p>
+                        <p className="text-blue-700 dark:text-blue-300">3-5 business days</p>
+                    </div>
                 </div>
-              </div>
-            </div>
-
-            <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-white'>
-                Estimated Delivery
-              </h2>
-              <div className='flex items-center space-x-2'>
-                <FiClock className='w-5 h-5 text-blue-400' />
-                <div>
-                  <p className='font-medium text-white'>3-5 business days</p>
-                  <p className='text-sm text-gray-400'>Free shipping</p>
-                </div>
-              </div>
-            </div>
-
-            <div className='border-t border-white/10 pt-4 text-right'>
-              <p className='text-xl font-bold text-white'>
-                Total: ${orderTotal.toFixed(2)}
-              </p>
             </div>
           </div>
-        </div>
 
-        <div className='text-center mt-12'>
-          <Link href='/products'>
-            <button className='bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg hover:opacity-90 transition-all'>
-              Continue Shopping
-            </button>
-          </Link>
+          <div className="text-center mt-12">
+            <Link href="/products" legacyBehavior>
+              <a className="inline-block bg-indigo-600 text-white py-3 px-8 rounded-lg text-lg font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-800 transition-all duration-300">
+                Continue Shopping
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
+    </>
+  );
+};
 
 const ConfirmationPage = () => {
-  const router = useRouter()
-  const [orderData, setOrderData] = useState<OrderConfirmationProps | null>(
-    null
-  )
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [orderData, setOrderData] = useState<OrderConfirmationProps | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (router.isReady) {
-      const {
-        orderId,
-        total,
-        fullName,
-        addressLine1,
-        city,
-        postalCode,
-        country,
-      } = router.query
+      const { orderId, total, fullName, addressLine1, city, postalCode, country } = router.query;
 
       if (orderId && total && fullName && addressLine1) {
         setOrderData({
@@ -152,40 +104,43 @@ const ConfirmationPage = () => {
             postalCode: postalCode as string,
             country: country as string,
           },
-        })
+        });
       } else {
-        setError('Order details are missing. Please contact support.')
+        setError('Order details are missing. Please contact support if this issue persists.');
       }
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [router.isReady, router.query])
+  }, [router.isReady, router.query]);
 
   if (isLoading) {
     return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <CircleLoader visible={true} />
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900">
+        <Loader2 className="w-12 h-12 animate-spin text-indigo-500" />
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">Loading your confirmation...</p>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
-      <div className='container mx-auto px-4 py-16 text-center'>
-        <h1 className='text-2xl text-red-500'>{error}</h1>
-        <Link href='/'>
-          <button className='mt-4 text-blue-400 hover:underline'>
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4 text-center">
+        <AlertTriangle className="w-12 h-12 text-red-500 mb-4" />
+        <h1 className="text-2xl font-bold text-red-600 dark:text-red-400">An Error Occurred</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2 max-w-md">{error}</p>
+        <Link href="/" legacyBehavior>
+          <a className="mt-6 bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors">
             Go to Homepage
-          </button>
+          </a>
         </Link>
       </div>
-    )
+    );
   }
 
   if (!orderData) {
-    return null // Or a fallback UI
+    return null; // Should be handled by loading/error states
   }
 
-  return <OrderConfirmationDisplay {...orderData} />
-}
+  return <OrderConfirmationDisplay {...orderData} />;
+};
 
-export default ConfirmationPage
+export default ConfirmationPage;

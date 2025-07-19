@@ -89,7 +89,7 @@ const AdminProductsPage = () => {
         <h1 className='text-4xl font-bold text-gray-800 dark:text-white'>
           Manage Products
         </h1>
-        <Link
+        <Link legacyBehavior
           href='/admin/products/new'
           className='bg-blue-500/80 text-white px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-600/90 backdrop-blur-md border border-white/20 transition-all duration-300'
         >
@@ -147,7 +147,7 @@ const AdminProductsPage = () => {
                   {product.stock}
                 </td>
                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium'>
-                  <Link
+                  <Link legacyBehavior
                     href={`/admin/products/edit/${product.id}`}
                     className='text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mr-4 transition-colors'
                   >

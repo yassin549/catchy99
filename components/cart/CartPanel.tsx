@@ -111,7 +111,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             >
               Clear Cart
             </button>
-            <Link href='/checkout' className='w-full mt-4'>
+            <Link href='/checkout' className='w-full mt-4' legacyBehavior>
               <button className='w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all'>
                 Proceed to Checkout
               </button>

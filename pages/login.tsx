@@ -1,89 +1,134 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { useAuth } from '@/context/AuthContext'
+import { useState, useEffect, FormEvent } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
+import { NextSeo } from 'next-seo';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Mail, Lock, LogIn, Loader2, AlertCircle } from 'lucide-react';
 
 const LoginPage = () => {
-  const router = useRouter()
-  const { login, user } = useAuth()
-  const [email, setEmail] = useState('admin@liquid-glass.com')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const { login, user } = useAuth();
+  const [email, setEmail] = useState('admin@catchy.com');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Redirect if user is already logged in
     if (user) {
-      router.push('/admin')
+      router.push('/admin');
     }
-  }, [user, router])
+  }, [user, router]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError('')
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
 
     try {
-      await login(email, password)
-      // The useEffect above will handle the redirect
+      await login(email, password);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed'
-      setError(message)
+      const message = err instanceof Error ? err.message : 'Login failed. Please check your credentials.';
+      setError(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className='container mx-auto flex items-center justify-center min-h-screen'>
-      <div className='w-full max-w-md p-8 space-y-6 bg-glass-light rounded-lg shadow-xl'>
-        <h1 className='text-2xl font-bold text-center text-white'>
-          Admin Login
-        </h1>
-        <form onSubmit={handleSubmit} className='space-y-6'>
-          <div>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-gray-300'
-            >
-              Email
-            </label>
-            <input
-              id='email'
-              type='email'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className='w-full px-3 py-2 mt-1 text-white bg-white/20 border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400'
-            />
-          </div>
-          <div>
-            <label
-              htmlFor='password'
-              className='block text-sm font-medium text-gray-300'
-            >
-              Password
-            </label>
-            <input
-              id='password'
-              type='password'
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className='w-full px-3 py-2 mt-1 text-white bg-white/20 border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400'
-            />
-          </div>
-          {error && <p className='text-sm text-center text-red-400'>{error}</p>}
-          <button
-            type='submit'
-            disabled={isLoading}
-            className='w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-gray-500 transition-colors'
-          >
-            {isLoading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
-      </div>
-    </div>
-  )
-}
+    <>
+      <NextSeo title="Login - Catchy" />
+      <div className="min-h-screen w-full lg:grid lg:grid-cols-2">
+        <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md space-y-8">
+            <div>
+              <Link href="/" legacyBehavior>
+                <a className="flex justify-center">
+                    <Image src="/images/brand/logo.jpg" alt="Catchy Logo" width={80} height={80} />
+                </a>
+              </Link>
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+                Sign in to your account
+              </h2>
+              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                Or{' '}
+                <Link href="/products" legacyBehavior>
+                    <a className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                        start shopping
+                    </a>
+                </Link>
+              </p>
+            </div>
 
-export default LoginPage
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              <div className="rounded-md shadow-sm -space-y-px">
+                <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Email address"
+                    />
+                </div>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Password"
+                    />
+                </div>
+              </div>
+
+              {error && (
+                <div className="flex items-center text-sm text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 p-3 rounded-md">
+                  <AlertCircle className="w-5 h-5 mr-2" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 dark:focus:ring-offset-gray-800"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>
+                      <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <LogIn className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                      </span>
+                      Sign in
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="hidden lg:block relative">
+          <Image
+            src="/images/brand/1.jpg"
+            alt="Stylish fashion model"
+            fill
+            style={{ objectFit: 'cover' }}
+            className="z-0"
+          />
+           <div className="absolute inset-0 bg-black/30 z-10"></div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default LoginPage;

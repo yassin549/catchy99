@@ -132,7 +132,7 @@ const AdminDashboard = () => {
           <p className='text-gray-600 dark:text-gray-400 mb-4'>
             Add, edit, and delete products from your store&apos;s inventory.
           </p>
-          <Link
+          <Link legacyBehavior
             href='/admin/products'
             className='inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors'
           >
@@ -149,7 +149,7 @@ const AdminDashboard = () => {
           <p className='text-gray-600 dark:text-gray-400 mb-4'>
             View and update customer orders and their statuses.
           </p>
-          <Link
+          <Link legacyBehavior
             href='/admin/orders'
             className='inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors'
           >
