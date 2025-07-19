@@ -1,9 +1,10 @@
 import fs from 'fs/promises'
 import path from 'path'
-import { Product, User, Order } from '@/types'
+import { Product, User, Order, Category } from '@/types'
 
 // Define the structure of our database
 export interface DbData {
+  categories: Category[]
   products: Product[]
   users: User[]
   orders: Order[]
@@ -29,7 +30,7 @@ export const db = {
       if (isFsError(error)) {
         // If the file doesn't exist, return default structure
         if (error.code === 'ENOENT') {
-          return { products: [], users: [], orders: [] }
+          return { products: [], users: [], orders: [], categories: [] }
         }
         // For other file system errors, rethrow them
         throw error

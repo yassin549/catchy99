@@ -1,8 +1,6 @@
 import { Product, Category } from '@/types';
 
-const API_BASE_URL = typeof window === 'undefined' 
-    ? 'http://localhost:3000' 
-    : '';
+const API_BASE_URL = ''
 
 async function fetcher<T>(url: string, tags: string[] = []): Promise<T> {
     try {

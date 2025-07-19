@@ -30,7 +30,8 @@ const LowStockAlerts: React.FC<LowStockAlertsProps> = ({ products }) => {
                 ({product.stock} left)
               </span>
             </div>
-            <Link legacyBehavior
+            <Link
+              legacyBehavior
               href={`/admin/products/edit/${product.id}`}
               className='text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200 transition-colors'
             >

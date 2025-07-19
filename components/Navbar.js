@@ -9,7 +9,8 @@ const Navbar = () => {
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16'>
           <div className='flex-shrink-0'>
-            <Link legacyBehavior
+            <Link
+              legacyBehavior
               href='/'
               className='text-2xl font-bold text-white'
             >
@@ -39,25 +40,29 @@ const Navbar = () => {
                   </span>
                 )}
               </button>
-              <Link legacyBehavior
+              <Link
+                legacyBehavior
                 href='/'
                 className='text-gray-300 hover:text-white hover:text-shadow-neon-blue px-3 py-2 rounded-md text-sm font-medium transition-all duration-300'
               >
                 Home
               </Link>
-              <Link legacyBehavior
+              <Link
+                legacyBehavior
                 href='/products'
                 className='text-gray-300 hover:text-white hover:text-shadow-neon-blue px-3 py-2 rounded-md text-sm font-medium transition-all duration-300'
               >
                 Products
               </Link>
-              <Link legacyBehavior
+              <Link
+                legacyBehavior
                 href='/about'
                 className='text-gray-300 hover:text-white hover:text-shadow-neon-blue px-3 py-2 rounded-md text-sm font-medium transition-all duration-300'
               >
                 About
               </Link>
-              <Link legacyBehavior
+              <Link
+                legacyBehavior
                 href='/contact'
                 className='text-gray-300 hover:text-white hover:text-shadow-neon-blue px-3 py-2 rounded-md text-sm font-medium transition-all duration-300'
               >
