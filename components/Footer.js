@@ -8,11 +8,11 @@ import {
 
 const Footer = () => {
   return (
-    <footer className='bg-gray-900 text-gray-300 py-12'>
-      <div className='container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left'>
+    <footer className='bg-gray-900 text-gray-300 py-8 sm:py-12'>
+      <div className='container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
         {/* Address */}
         <div className='space-y-4'>
-          <h3 className='text-lg font-bold text-white flex items-center justify-center md:justify-start'>
+          <h3 className='text-lg font-bold text-white flex items-center justify-center'>
             <FaMapMarkerAlt className='mr-2' /> Adresse
           </h3>
           <p>Av. Mohamed Rached El Baji, Ariana, Tunisie, 2037</p>
@@ -29,7 +29,7 @@ const Footer = () => {
 
         {/* Contact */}
         <div className='space-y-4'>
-          <h3 className='text-lg font-bold text-white flex items-center justify-center md:justify-start'>
+          <h3 className='text-lg font-bold text-white flex items-center justify-center'>
             <FaPhone className='mr-2' /> Contact
           </h3>
           <p>
@@ -43,7 +43,7 @@ const Footer = () => {
         {/* Social Media */}
         <div className='space-y-4'>
           <h3 className='text-lg font-bold text-white'>Réseaux sociaux</h3>
-          <div className='flex justify-center md:justify-start space-x-6 text-2xl'>
+          <div className='flex justify-center space-x-6 text-2xl'>
             <a
               href='https://www.instagram.com/catchy_99'
               target='_blank'

@@ -33,7 +33,7 @@ const Home = ({ products, categories }) => {
 
       <div className='bg-white dark:bg-gray-900 text-gray-800 dark:text-white'>
         {/* Hero Section */}
-        <section className='relative h-screen min-h-[700px] flex items-center'>
+        <section className='relative h-[80vh] md:h-screen min-h-[600px] md:min-h-[700px] flex items-center'>
           <div className='absolute inset-0 z-0'>
             <Image
               src='/images/brand/3.jpg'
@@ -47,10 +47,10 @@ const Home = ({ products, categories }) => {
             <div className='absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent'></div>
           </div>
           <div className='relative z-10 container mx-auto px-4 text-center text-white'>
-            <h1 className='text-5xl md:text-7xl font-extrabold tracking-tight mb-4 animate-fade-in-down'>
+            <h1 className='text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 animate-fade-in-down'>
               Style That Defines You
             </h1>
-            <p className='max-w-2xl mx-auto text-lg md:text-xl mb-8 font-light animate-fade-in-up'>
+            <p className='max-w-2xl mx-auto text-base sm:text-lg md:text-xl mb-8 font-light animate-fade-in-up'>
               Discover our collection of authentic and curated fashion items
               that speak to your unique personality.
             </p>
@@ -63,9 +63,9 @@ const Home = ({ products, categories }) => {
         </section>
 
         {/* Features Section */}
-        <section className='py-20 bg-gray-50 dark:bg-gray-800'>
+        <section className='py-16 md:py-20 bg-gray-50 dark:bg-gray-800'>
           <div className='container mx-auto px-4'>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-12 text-center'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 text-center'>
               {features.map(feature => (
                 <div key={feature.title} className='flex flex-col items-center'>
                   <div className='flex items-center justify-center h-16 w-16 mb-5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full'>
@@ -82,15 +82,15 @@ const Home = ({ products, categories }) => {
         </section>
 
         {/* Featured Products Section */}
-        <section className='py-24'>
+        <section className='py-16 md:py-24'>
           <div className='container mx-auto px-4'>
-            <h2 className='text-4xl font-bold text-center mb-4'>
+            <h2 className='text-3xl md:text-4xl font-bold text-center mb-4'>
               Trending Now
             </h2>
-            <p className='text-center text-gray-600 dark:text-gray-400 mb-12'>
+            <p className='text-center text-gray-600 dark:text-gray-400 mb-8 md:mb-12'>
               Check out our most popular products.
             </p>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
+            <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8'>
               {products.slice(0, 4).map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
