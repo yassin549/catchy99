@@ -75,7 +75,7 @@ export default async function handler(
           name,
           description,
           price,
-          images: [image],
+          image: image,
           category,
           size: size || 'One Size',
           stock,
