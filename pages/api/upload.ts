@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import formidable from 'formidable';
+import formidable, { File } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
@@ -16,43 +16,40 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).end('Method Not Allowed');
   }
 
-  try {
-    const { files } = await new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
-      const form = formidable({
-        uploadDir,
-        keepExtensions: true,
-        filename: (name, ext, part) => {
-          return `${Date.now()}-${part.originalFilename}`;
-        },
-      });
+  const form = formidable({
+    uploadDir,
+    keepExtensions: true,
+    maxFileSize: 10 * 1024 * 1024, // 10MB
+    filename: (name, ext, part) => {
+      const sanitizedFilename = part.originalFilename?.replace(/[^a-zA-Z0-9._-]/g, '') || 'file';
+      return `${Date.now()}-${sanitizedFilename}`;
+    },
+  });
 
-      form.parse(req, (err, fields, files) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve({ fields, files });
-      });
-    });
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      console.error('Error parsing form:', err);
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ error: 'File size exceeds the 10MB limit.' });
+      }
+      return res.status(500).json({ error: 'Error uploading file.' });
+    }
 
-    const fileArray = files.file as formidable.File[];
-    if (!fileArray || fileArray.length === 0) {
+    const file: File | undefined = Array.isArray(files.file) ? files.file[0] : files.file;
+
+    if (!file) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
-    const file = fileArray[0];
 
-    const filePath = `/uploads/${path.basename(file.filepath)}`;
+    const filePath = `/uploads/${file.newFilename}`;
     return res.status(200).json({ filePath });
-  } catch (err) {
-    console.error('Error parsing form:', err);
-    return res.status(500).json({ error: 'Error uploading file.' });
-  }
+  });
 };
 
 export default handler;

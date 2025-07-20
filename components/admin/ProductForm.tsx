@@ -20,13 +20,18 @@ const schema = yup.object().shape({
     .integer('Stock must be an integer')
     .min(0, 'Stock cannot be negative')
     .required('Stock is required'),
-  image: yup.mixed().required('Image is required'),
+  image: yup
+    .mixed()
+    .test('required', 'Image is required', (value) => {
+      return value && value.length > 0;
+    })
+    .test('fileSize', 'The file is too large', (value) => {
+        return value && value[0] && value[0].size <= 1024 * 1024 * 10; // 10MB
+    }),
 })
 
 // Define the form data structure based on the schema
-export type ProductFormData = Omit<yup.InferType<typeof schema>, 'image'> & {
-  image: any;
-};
+export type ProductFormData = yup.InferType<typeof schema>;
 
 interface ProductFormProps {
   onSubmit: (data: ProductFormData) => void
