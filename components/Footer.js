@@ -11,10 +11,10 @@ const Footer = () => {
   const { t } = useTranslation('common')
   return (
     <footer className='bg-gray-900 text-gray-300 py-8 sm:py-12'>
-      <div className='container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
+      <div className='container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-left md:text-center'>
         {/* Address */}
         <div className='space-y-4'>
-          <h3 className='text-lg font-bold text-white flex items-center justify-center'>
+          <h3 className='text-lg font-bold text-white flex items-center justify-start md:justify-center'>
             <FaMapMarkerAlt className='mr-2' /> {t('footer.addressTitle')}
           </h3>
           <p>{t('footer.addressLine1')}</p>
@@ -31,7 +31,7 @@ const Footer = () => {
 
         {/* Contact */}
         <div className='space-y-4'>
-          <h3 className='text-lg font-bold text-white flex items-center justify-center'>
+          <h3 className='text-lg font-bold text-white flex items-center justify-start md:justify-center'>
             <FaPhone className='mr-2' /> {t('footer.contactTitle')}
           </h3>
           <p>
@@ -45,7 +45,7 @@ const Footer = () => {
         {/* Social Media */}
         <div className='space-y-4'>
           <h3 className='text-lg font-bold text-white'>{t('footer.socialMediaTitle')}</h3>
-          <div className='flex justify-center space-x-6 text-2xl'>
+          <div className='flex justify-start md:justify-center space-x-6 text-2xl'>
             <a
               href='https://www.instagram.com/catchy_99'
               target='_blank'

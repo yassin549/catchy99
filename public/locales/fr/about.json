@@ -1,0 +1,44 @@
+{
+  "seo": {
+    "title": "À propos de Catchy",
+    "description": "Découvrez Catchy, votre destination tendance à Ariana, Tunisie. Qualité, style et accessibilité."
+  },
+  "title": "À propos de Catchy",
+  "subtitle": "Bienvenue chez Catchy, votre destination tendance à Ariana, Tunisie. Nous sommes plus qu’une boutique — nous sommes un univers où qualité, style et accessibilité se rencontrent pour vous offrir une expérience unique.",
+  "mission": {
+    "title": "Notre mission",
+    "text": "Vous proposer les meilleurs articles avec un service rapide, 7j/7, au meilleur prix. Que vous fassiez vos achats en boutique ou en ligne, nous nous engageons à vous satisfaire avant, pendant et après votre commande."
+  },
+  "whyChooseUs": {
+    "title": "Pourquoi choisir Catchy ?",
+    "points": [
+      {
+        "icon": "quality",
+        "text": "Produits de qualité supérieure"
+      },
+      {
+        "icon": "support",
+        "text": "Service client réactif 7j/7"
+      },
+      {
+        "icon": "price",
+        "text": "Les meilleurs prix du marché"
+      },
+      {
+        "icon": "service",
+        "text": "Un service après-vente fiable"
+      },
+      {
+        "icon": "selection",
+        "text": "Une large sélection pour tous les goûts"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Retrouvez-nous à :",
+    "address": "Avenue Mohamed Rached El Baji, Ariana, Tunisie 2037",
+    "phone": "58674386",
+    "instagram": "Suivez notre deuxième page : @catchy_outlet99",
+    "tiktok": "Et découvrez nos nouveautés sur TikTok : @catchy99store"
+  }
+}

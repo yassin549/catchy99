@@ -1,0 +1,34 @@
+{
+  "seo": {
+    "title": "Contactez-nous - Catchy",
+    "description": "Vous avez une question ou une suggestion ? Contactez-nous via le formulaire."
+  },
+  "title": "Contactez-nous",
+  "subtitle": "Nous sommes là pour vous aider ! N'hésitez pas à nous poser vos questions. Nous avons hâte de vous lire.",
+  "info": {
+    "title": "Coordonnées",
+    "description": "Remplissez le formulaire et notre équipe vous répondra dans les 24 heures.",
+    "email": "support@catchy.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Rue de la Créativité, Ville des Arts, France",
+    "social": "Suivez-nous sur les réseaux sociaux !"
+  },
+  "form": {
+    "name": {
+      "label": "Nom complet",
+      "placeholder": "Jean Dupont"
+    },
+    "email": {
+      "label": "Adresse e-mail",
+      "placeholder": "vous@exemple.com"
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Votre message..."
+    },
+    "submit": {
+      "text": "Envoyer le message",
+      "submitting": "Envoi en cours..."
+    }
+  }
+}

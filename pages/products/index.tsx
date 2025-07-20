@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
-import { Product } from '@/types'
+import { Product, Category } from '@/types'
 import ProductCard from '@/components/ProductCard'
 import { getProducts, getCategories } from '@/lib/data';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,11 +23,11 @@ const ProductsPage = ({
   initialCategories,
 }: {
   initialProducts: Product[]
-  initialCategories: string[]
+  initialCategories: Category[]
 }) => {
   const router = useRouter()
   const [products] = useState(initialProducts)
-  const [categories] = useState(['All', ...initialCategories])
+  const [categories] = useState(initialCategories || []);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -71,7 +71,8 @@ const ProductsPage = ({
   const filteredAndPaginatedProducts = useMemo(() => {
     if (!products) return { paginated: [], totalPages: 0, totalResults: 0 }
 
-    const filtered = products.filter(p => {
+        const filtered = products.filter(p => {
+      // Assuming p.category is the category name (string)
       return (
         (filters.category === 'All' || p.category === filters.category) &&
         p.price <= filters.maxPrice &&
@@ -146,9 +147,10 @@ const ProductsPage = ({
             onChange={handleFilterChange}
             className='w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700'
           >
-            {categories.map(c => (
-              <option key={c} value={c}>
-                {c}
+            <option value='All'>All Categories</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.name}>
+                {category.name}
               </option>
             ))}
           </select>

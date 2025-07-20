@@ -22,8 +22,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link href={`/products/${product.id}`} legacyBehavior>
-      <a className='group block bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl'>
-        <div className='relative h-56 sm:h-64 w-full overflow-hidden'>
+      <a className='group block bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-1'>
+        <div className='relative h-48 sm:h-56 w-full overflow-hidden'>
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -34,13 +34,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className='absolute inset-0 bg-black dark:bg-opacity-20 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300'></div>
           <button
             onClick={handleAddToCart}
-            className='absolute bottom-4 right-4 bg-indigo-600 text-white px-4 py-2 flex items-center rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:scale-105'
+            className='absolute bottom-3 right-3 bg-indigo-600 text-white p-2 sm:px-3 sm:py-2 flex items-center rounded-full sm:rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:scale-105 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'
           >
             <ShoppingCart size={20} />
-            <span className='ml-2 text-sm font-semibold'>{t('product.addToCart')}</span>
+            <span className='hidden sm:inline ml-2 text-sm font-semibold'>{t('product.addToCart')}</span>
           </button>
         </div>
-        <div className='p-4 sm:p-5'>
+        <div className='p-4'>
           <h3 className='text-base sm:text-lg font-bold text-gray-800 dark:text-white truncate'>
             {product.name}
           </h3>

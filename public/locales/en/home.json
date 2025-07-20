@@ -27,7 +27,8 @@
     "subtitle": "Check out our most popular products."
   },
   "categories": {
-    "title": "Shop by Category"
+    "title": "Shop by Category",
+    "viewAll": "View All"
   },
   "newsletter": {
     "title": "Stay in the Loop",

@@ -81,9 +81,21 @@ export default async function handler(
           stock,
         }
 
-        const data = await db.read()
-        data.products.push(newProduct)
-        await db.write(data)
+        const data = await db.read();
+
+        // Check if category exists, if not, create it
+        const categoryExists = data.categories.some(c => c.name.toLowerCase() === category.toLowerCase());
+        if (!categoryExists) {
+          const newCategory = {
+            id: `cat_${new Date().getTime()}`,
+            name: category,
+            // You might want to add a default image or other properties here
+          };
+          data.categories.push(newCategory);
+        }
+
+        data.products.push(newProduct);
+        await db.write(data);
         res.status(201).json(newProduct)
       } catch (error) {
         res.status(500).json({ message: 'Failed to create product' })

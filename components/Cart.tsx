@@ -37,7 +37,7 @@ const Cart = () => {
       ></div>
 
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-gray-50 dark:bg-gray-900 shadow-2xl transform transition-transform duration-500 ease-in-out ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-full max-w-md bg-gray-50 dark:bg-gray-900 shadow-2xl transform transition-transform duration-500 ease-in-out ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
         style={{ zIndex: 1000 }}
       >
         <div className='flex flex-col h-full text-gray-800 dark:text-gray-100'>

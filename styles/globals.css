@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .mask-fade-edges {
+    mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);
+  }
+}
+
+/* Scroll Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scroll Animator Base Styles */
+.scroll-animator {
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Animation Definitions */
+.scroll-animator.fade-in-up {
+  transform: translateY(20px);
+}
+
+.scroll-animator.zoom-in {
+  transform: scale(0.9);
+}
+
+/* Visible State */
+.scroll-animator.is-visible.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animator.is-visible.zoom-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
 html {
   scroll-padding-top: 4rem; /* Match navbar height (h-16) */
 }

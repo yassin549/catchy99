@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { NextSeo } from 'next-seo'
 import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const ContactPage = () => {
+  const { t } = useTranslation('contact')
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -27,19 +30,18 @@ const ContactPage = () => {
   return (
     <>
       <NextSeo
-        title='Contact Us - Catchy'
-        description='Have a question or suggestion? Get in touch with us using the contact form.'
+        title={t('seo.title')}
+        description={t('seo.description')}
       />
       <div className='bg-gray-50 dark:bg-gray-900 py-20 sm:py-28'>
         <div className='container mx-auto px-4'>
           <div className='max-w-6xl mx-auto'>
             <div className='text-center mb-16'>
               <h1 className='text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight'>
-                Get in Touch
+                {t('title')}
               </h1>
               <p className='mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto'>
-                We&apos;re here to help! and answer any question you might have.
-                We look forward to hearing from you.
+                {t('subtitle')}
               </p>
             </div>
 
@@ -48,35 +50,34 @@ const ContactPage = () => {
               <div className='flex flex-col justify-between'>
                 <div>
                   <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-6'>
-                    Contact Information
+                    {t('info.title')}
                   </h2>
                   <p className='text-gray-600 dark:text-gray-400 mb-8'>
-                    Fill up the form and our team will get back to you within 24
-                    hours.
+                    {t('info.description')}
                   </p>
                   <div className='space-y-6'>
                     <div className='flex items-center'>
                       <Mail className='w-6 h-6 text-indigo-500 dark:text-indigo-400' />
                       <span className='ml-4 text-lg text-gray-700 dark:text-gray-300'>
-                        support@catchy.com
+                        {t('info.email')}
                       </span>
                     </div>
                     <div className='flex items-center'>
                       <Phone className='w-6 h-6 text-indigo-500 dark:text-indigo-400' />
                       <span className='ml-4 text-lg text-gray-700 dark:text-gray-300'>
-                        +1 (555) 123-4567
+                        {t('info.phone')}
                       </span>
                     </div>
                     <div className='flex items-center'>
                       <MapPin className='w-6 h-6 text-indigo-500 dark:text-indigo-400' />
                       <span className='ml-4 text-lg text-gray-700 dark:text-gray-300'>
-                        123 Creative Lane, Art City, USA
+                        {t('info.address')}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className='mt-8 text-gray-500 dark:text-gray-400'>
-                  <p>Follow us on social media!</p>
+                  <p>{t('info.social')}</p>
                   {/* Social media icons can be added here */}
                 </div>
               </div>
@@ -89,14 +90,14 @@ const ContactPage = () => {
                       htmlFor='name'
                       className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'
                     >
-                      Full Name
+                      {t('form.name.label')}
                     </label>
                     <input
                       type='text'
                       name='name'
                       id='name'
                       required
-                      placeholder='John Doe'
+                      placeholder={t('form.name.placeholder')}
                       value={formData.name}
                       onChange={handleInputChange}
                       className='w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition'
@@ -107,14 +108,14 @@ const ContactPage = () => {
                       htmlFor='email'
                       className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'
                     >
-                      Email Address
+                      {t('form.email.label')}
                     </label>
                     <input
                       type='email'
                       name='email'
                       id='email'
                       required
-                      placeholder='you@example.com'
+                      placeholder={t('form.email.placeholder')}
                       value={formData.email}
                       onChange={handleInputChange}
                       className='w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition'
@@ -125,14 +126,14 @@ const ContactPage = () => {
                       htmlFor='message'
                       className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'
                     >
-                      Message
+                      {t('form.message.label')}
                     </label>
                     <textarea
                       id='message'
                       name='message'
                       rows='5'
                       required
-                      placeholder='Your message...'
+                      placeholder={t('form.message.placeholder')}
                       value={formData.message}
                       onChange={handleInputChange}
                       className='w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition'
@@ -149,7 +150,7 @@ const ContactPage = () => {
                       ) : (
                         <Send className='w-5 h-5 mr-2' />
                       )}
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t('form.submit.submitting') : t('form.submit.text')}
                     </button>
                   </div>
                 </form>
@@ -163,3 +164,9 @@ const ContactPage = () => {
 }
 
 export default ContactPage
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['contact', 'common', 'footer'])),
+  },
+})

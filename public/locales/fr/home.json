@@ -9,17 +9,21 @@
     "button": "Explorer la collection"
   },
   "features": {
-    "collection": {
-      "title": "Collection sélectionnée",
-      "description": "Des styles triés sur le volet pour les créateurs de tendances modernes."
+    "quality": {
+      "title": "Produits de qualité supérieure",
+      "description": ""
     },
-    "shipping": {
-      "title": "Livraison rapide",
-      "description": "Recevez votre nouveau look à votre porte en un rien de temps."
+    "support": {
+      "title": "Service client réactif 7j/7",
+      "description": ""
     },
-    "checkout": {
-      "title": "Paiement sécurisé",
-      "description": "Achetez en toute confiance grâce à notre passerelle de paiement sécurisée."
+    "pricing": {
+      "title": "Les meilleurs prix du marché",
+      "description": ""
+    },
+    "service": {
+      "title": "Un service après-vente fiable",
+      "description": ""
     }
   },
   "trending": {
@@ -27,7 +31,8 @@
     "subtitle": "Découvrez nos produits les plus populaires."
   },
   "categories": {
-    "title": "Acheter par catégorie"
+    "title": "Acheter par catégorie",
+    "viewAll": "Voir tout"
   },
   "newsletter": {
     "title": "Restez à l'affût",

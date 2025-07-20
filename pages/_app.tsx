@@ -6,6 +6,7 @@ import { ThemeProvider } from '../context/ThemeContext'
 import { CartProvider } from '../context/CartContext'
 import { AuthProvider } from '../context/AuthContext'
 import { ParallaxProvider } from 'react-scroll-parallax'
+import Head from 'next/head'
 import { MainLayout } from '../layouts'
 import { CircleLoader } from '../components'
 import '../styles/globals.css'
@@ -41,6 +42,10 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <AuthProvider>
+      <Head>
+        <title>Catchy</title>
+        <link rel="icon" href="/images/brand/logo.jpg" />
+      </Head>
       <ThemeProvider>
         <CartProvider>
           <ParallaxProvider>
