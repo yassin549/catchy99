@@ -59,7 +59,7 @@ export default async function handler(
         if (
           !name ||
           !price ||
-          !image ||
+          !productImage ||
           !category ||
           
           stock === undefined
