@@ -9,7 +9,8 @@ export const config = {
   },
 };
 
-const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+const isVercel = process.env.VERCEL === '1';
+const uploadDir = isVercel ? path.join('/tmp', 'uploads') : path.join(process.cwd(), 'public', 'uploads');
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
@@ -47,8 +48,17 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
-    const filePath = `/uploads/${file.newFilename}`;
-    return res.status(200).json({ filePath });
+    if (isVercel) {
+      // On Vercel, read the file and return as Base64
+      const fileContent = fs.readFileSync(file.filepath);
+      const base64 = `data:${file.mimetype};base64,${fileContent.toString('base64')}`;
+      fs.unlinkSync(file.filepath); // Clean up temp file
+      return res.status(200).json({ filePath: base64 });
+    } else {
+      // On local, return the file path
+      const filePath = `/uploads/${file.newFilename}`;
+      return res.status(200).json({ filePath });
+    }
   });
 };
 

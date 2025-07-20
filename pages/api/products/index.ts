@@ -54,7 +54,7 @@ export default async function handler(
 
     case 'POST':
       try {
-        const { name, description, price, image, category, size, stock } = req.body;
+        const { name, description, price, image: productImage, category, size, stock } = req.body;
 
         if (
           !name ||
@@ -75,7 +75,7 @@ export default async function handler(
           name,
           description,
           price,
-          images: [image],
+          images: [productImage],
           category,
           size: size || 'One Size',
           stock,
