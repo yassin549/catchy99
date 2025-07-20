@@ -1,18 +1,5 @@
 {
-  "products": [
-    {
-      "id": "prod_1753027460288",
-      "name": "yassin",
-      "description": "yassin",
-      "price": 255,
-      "images": [
-        "/uploads/1753027460257-1.jpg"
-      ],
-      "category": "yassin",
-      "size": "One Size",
-      "stock": 255
-    }
-  ],
+  "products": [],
   "categories": [
     {
       "id": "cat_1753027460289",

@@ -1,4 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/context/AuthContext'
 import { NextSeo } from 'next-seo'
@@ -7,6 +10,7 @@ import Image from 'next/image'
 import { Mail, Lock, LogIn, Loader2, AlertCircle } from 'lucide-react'
 
 const LoginPage = () => {
+  const { t } = useTranslation(['login', 'common'])
   const router = useRouter()
   const { login, user } = useAuth()
   const [email, setEmail] = useState('admin@catchy.com')
@@ -40,7 +44,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <NextSeo title='Login - Catchy' />
+      <NextSeo title={t('seo.title')} />
       <div className='min-h-screen w-full lg:grid lg:grid-cols-2'>
         <div className='flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
           <div className='w-full max-w-md space-y-8'>
@@ -56,13 +60,13 @@ const LoginPage = () => {
                 </a>
               </Link>
               <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white'>
-                Sign in to your account
+                {t('title')}
               </h2>
               <p className='mt-2 text-center text-sm text-gray-600 dark:text-gray-400'>
-                Or{' '}
+                {t('or')}{' '}
                 <Link href='/products' legacyBehavior>
                   <a className='font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300'>
-                    start shopping
+                    {t('startShopping')}
                   </a>
                 </Link>
               </p>
@@ -79,7 +83,7 @@ const LoginPage = () => {
                     onChange={e => setEmail(e.target.value)}
                     required
                     className='w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white'
-                    placeholder='Email address'
+                    placeholder={t('emailPlaceholder')}
                   />
                 </div>
                 <div className='relative'>
@@ -91,7 +95,7 @@ const LoginPage = () => {
                     onChange={e => setPassword(e.target.value)}
                     required
                     className='w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white'
-                    placeholder='Password'
+                    placeholder={t('passwordPlaceholder')}
                   />
                 </div>
               </div>
@@ -119,7 +123,7 @@ const LoginPage = () => {
                           aria-hidden='true'
                         />
                       </span>
-                      Sign in
+                      {t('signInButton')}
                     </>
                   )}
                 </button>
@@ -141,5 +145,11 @@ const LoginPage = () => {
     </>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale || 'en', ['common', 'login'])),
+  },
+});
 
 export default LoginPage

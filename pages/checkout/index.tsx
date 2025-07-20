@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useCart } from '@/context/CartContext'
 import { Product } from '@/types'
 import {
@@ -13,8 +15,47 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
+import { useTranslation } from 'next-i18next'
+
+const InputField = ({
+  name,
+  label,
+  value,
+  onChange,
+  type = 'text',
+  required = true,
+  error,
+  placeholder,
+  ...props
+}: any) => (
+  <div>
+    <label
+      htmlFor={name}
+      className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+    >
+      {label}
+    </label>
+    <input
+      id={name}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      required={required}
+      className={`w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${error ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 dark:border-gray-700 focus:ring-indigo-500'} ${error ? 'focus:border-red-500' : 'focus:border-indigo-500'}`}
+      placeholder={placeholder}
+      {...props}
+    />
+    {error && (
+      <p className='mt-2 text-sm text-red-600 flex items-center'>
+        <AlertCircle className='w-4 h-4 mr-1' /> {error}
+      </p>
+    )}
+  </div>
+)
 
 const CheckoutPage = () => {
+  const { t } = useTranslation('checkout')
   const router = useRouter()
   const { cartItems, cartTotal, clearCart } = useCart()
   const [formData, setFormData] = useState({
@@ -127,40 +168,6 @@ const CheckoutPage = () => {
     )
   }
 
-  const InputField = ({
-    name,
-    label,
-    type = 'text',
-    required = true,
-    error,
-    ...props
-  }: any) => (
-    <div>
-      <label
-        htmlFor={name}
-        className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
-      >
-        {label}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={formData[name as keyof typeof formData]}
-        onChange={handleChange}
-        className={`w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'}`}
-        required={required}
-        {...props}
-      />
-      {error && (
-        <p className='text-sm text-red-500 mt-1 flex items-center'>
-          <AlertCircle size={14} className='mr-1' />
-          {error}
-        </p>
-      )}
-    </div>
-  )
-
   return (
     <>
       <Head>
@@ -172,51 +179,69 @@ const CheckoutPage = () => {
             <div className='lg:col-span-7'>
               <div className='bg-white dark:bg-gray-800/50 rounded-2xl p-6 md:p-8 shadow-lg'>
                 <h2 className='text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100'>
-                  Shipping Information
+                  {t('shippingInformation')}
                 </h2>
                 <form onSubmit={handleSubmit} className='space-y-6'>
                   <InputField
                     name='fullName'
-                    label='Full Name'
+                    label={t('fullName')}
+                    value={formData.fullName}
+                    onChange={handleChange}
                     error={formErrors.fullName}
+                    placeholder='John Doe'
                   />
                   <div className='grid md:grid-cols-2 gap-6'>
                     <InputField
                       name='email'
-                      label='Email Address'
+                      label={t('emailAddress')}
                       type='email'
+                      value={formData.email}
+                      onChange={handleChange}
                       error={formErrors.email}
+                      placeholder='you@example.com'
                     />
                     <InputField
                       name='phone'
-                      label='Phone Number'
+                      label={t('phoneNumber')}
                       type='tel'
+                      value={formData.phone}
+                      onChange={handleChange}
                       error={formErrors.phone}
+                      placeholder='+1 (555) 123-4567'
                     />
                   </div>
                   <hr className='dark:border-gray-700' />
                   <InputField
                     name='addressLine1'
-                    label='Address'
+                    label={t('address')}
+                    value={formData.addressLine1}
+                    onChange={handleChange}
                     error={formErrors.addressLine1}
+                    placeholder='123 Main St'
                   />
                   <div className='grid md:grid-cols-3 gap-6'>
                     <InputField
                       name='city'
-                      label='City'
+                      label={t('city')}
+                      value={formData.city}
+                      onChange={handleChange}
                       error={formErrors.city}
+                      placeholder='San Francisco'
                     />
                     <InputField
                       name='postalCode'
-                      label='Postal Code'
+                      label={t('postalCode')}
+                      value={formData.postalCode}
+                      onChange={handleChange}
                       error={formErrors.postalCode}
+                      placeholder='94103'
                     />
                     <div>
                       <label
                         htmlFor='country'
-                        className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
+                        className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
                       >
-                        Country
+                        {t('country')}
                       </label>
                       <select
                         id='country'
@@ -325,6 +350,17 @@ const CheckoutPage = () => {
       </div>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || 'en', [
+        'common',
+        'checkout',
+      ])),
+    },
+  }
 }
 
 export default CheckoutPage
