@@ -69,12 +69,13 @@ export default async function handler(
             .json({ message: 'Missing required product fields.' })
         }
 
+        // Force git to recognize change
         const newProduct: Product = {
           id: `prod_${new Date().getTime()}`,
           name,
           description,
           price,
-          images: [image], // Correctly use 'images' and wrap the 'image' string in an array
+          images: [image],
           category,
           size: size || 'One Size',
           stock,
