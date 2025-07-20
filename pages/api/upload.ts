@@ -22,19 +22,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).end('Method Not Allowed');
   }
 
-  const form = formidable({
-    uploadDir,
-    keepExtensions: true,
-    filename: (name, ext, part, form) => {
-      return `${Date.now()}-${part.originalFilename}`;
-    }
-  });
+  try {
+    const { files } = await new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
+      const form = formidable({
+        uploadDir,
+        keepExtensions: true,
+        filename: (name, ext, part) => {
+          return `${Date.now()}-${part.originalFilename}`;
+        },
+      });
 
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      console.error('Error parsing form:', err);
-      return res.status(500).json({ error: 'Error uploading file.' });
-    }
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve({ fields, files });
+      });
+    });
 
     const fileArray = files.file as formidable.File[];
     if (!fileArray || fileArray.length === 0) {
@@ -43,8 +48,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const file = fileArray[0];
 
     const filePath = `/uploads/${path.basename(file.filepath)}`;
-    res.status(200).json({ filePath });
-  });
+    return res.status(200).json({ filePath });
+  } catch (err) {
+    console.error('Error parsing form:', err);
+    return res.status(500).json({ error: 'Error uploading file.' });
+  }
 };
 
 export default handler;

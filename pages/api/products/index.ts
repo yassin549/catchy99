@@ -55,15 +55,15 @@ export default async function handler(
 
     case 'POST':
       try {
-        const { name, description, price, images, category, size, stock } =
+        const { name, description, price, image, category, size, stock } =
           req.body
 
         if (
           !name ||
           !price ||
-          !images ||
+          !image ||
           !category ||
-          !size ||
+          
           stock === undefined
         ) {
           return res
@@ -76,9 +76,9 @@ export default async function handler(
           name,
           description,
           price,
-          images,
+          images: [image],
           category,
-          size,
+          size: size || 'One Size',
           stock,
         }
 
