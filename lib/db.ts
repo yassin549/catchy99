@@ -1,4 +1,4 @@
-import { put, get } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 import { Product, User, Order, Category } from '@/types';
 
 // Define the structure of our database
@@ -17,12 +17,16 @@ const DB_BLOB_NAME = 'db.json';
 export const db = {
   async read(): Promise<DbData> {
     try {
-      const blob = await get(DB_BLOB_NAME);
-      if (!blob) {
+      const { blobs } = await list({ prefix: DB_BLOB_NAME, limit: 1 });
+      const dbBlob = blobs[0];
+
+      if (!dbBlob) {
         // If the blob doesn't exist, return a default structure
         return { products: [], users: [], orders: [], categories: [] };
       }
-      const fileContent = await blob.text();
+
+      const response = await fetch(dbBlob.url);
+      const fileContent = await response.text();
       return JSON.parse(fileContent);
     } catch (error) {
       console.error('Failed to read from Vercel Blob:', error);
