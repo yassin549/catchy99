@@ -21,13 +21,9 @@ const schema = yup.object().shape({
     .min(0, 'Stock cannot be negative')
     .required('Stock is required'),
   image: yup
-    .mixed()
-    .test('required', 'Image is required', (value) => {
-      return value && value.length > 0;
-    })
-    .test('fileSize', 'The file is too large', (value) => {
-        return value && value[0] && value[0].size <= 1024 * 1024 * 10; // 10MB
-    }),
+    .mixed<FileList>()
+    .test('required', 'Image is required', (value) => value instanceof FileList && value.length > 0)
+    .required('Image is required'),
 })
 
 // Define the form data structure based on the schema
