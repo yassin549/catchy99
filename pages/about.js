@@ -1,6 +1,7 @@
 import { Zap, PaintBucket, Users } from 'lucide-react'
 import Head from 'next/head'
-import Link from 'next/link'
+import Link from 'next/link';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const AboutPage = () => {
   return (
@@ -115,4 +116,10 @@ const AboutPage = () => {
   )
 }
 
-export default AboutPage
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common', 'about'])),
+  },
+});
+
+export default AboutPage;

@@ -9,6 +9,7 @@ import { ParallaxProvider } from 'react-scroll-parallax'
 import { MainLayout } from '../layouts'
 import { CircleLoader } from '../components'
 import '../styles/globals.css'
+import { appWithTranslation } from 'next-i18next'
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -54,4 +55,4 @@ function App({ Component, pageProps }: AppProps) {
   )
 }
 
-export default App
+export default appWithTranslation(App)

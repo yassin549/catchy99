@@ -18,7 +18,7 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState('dark') // default to dark mode
+  const [theme, setTheme] = useState('light') // default to light mode
 
   useEffect(() => {
     const root = window.document.documentElement

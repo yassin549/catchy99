@@ -20,14 +20,13 @@ const schema = yup.object().shape({
     .integer('Stock must be an integer')
     .min(0, 'Stock cannot be negative')
     .required('Stock is required'),
-  image: yup
-    .string()
-    .url('Must be a valid URL')
-    .required('Image URL is required'),
+  image: yup.mixed().required('Image is required'),
 })
 
 // Define the form data structure based on the schema
-export type ProductFormData = yup.InferType<typeof schema>
+export type ProductFormData = Omit<yup.InferType<typeof schema>, 'image'> & {
+  image: any;
+};
 
 interface ProductFormProps {
   onSubmit: (data: ProductFormData) => void
@@ -118,10 +117,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
       <div>
         <label htmlFor='image' className='block text-sm font-medium'>
-          Image URL
+          Product Image
         </label>
-        <input id='image' {...register('image')} className={inputClass} />
-        {errors.image && <p className={errorClass}>{errors.image.message}</p>}
+        <input id='image' type='file' {...register('image')} className={`${inputClass} file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100`} />
+        {errors.image && <p className={errorClass}>{String(errors.image.message)}</p>}
       </div>
 
       <div className='flex justify-end'>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import {
   FaMapMarkerAlt,
   FaPhone,
@@ -7,33 +8,34 @@ import {
 } from 'react-icons/fa'
 
 const Footer = () => {
+  const { t } = useTranslation('common')
   return (
     <footer className='bg-gray-900 text-gray-300 py-8 sm:py-12'>
       <div className='container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
         {/* Address */}
         <div className='space-y-4'>
           <h3 className='text-lg font-bold text-white flex items-center justify-center'>
-            <FaMapMarkerAlt className='mr-2' /> Adresse
+            <FaMapMarkerAlt className='mr-2' /> {t('footer.addressTitle')}
           </h3>
-          <p>Av. Mohamed Rached El Baji, Ariana, Tunisie, 2037</p>
-          <p>Ennasser, à côté de @catchy_outlet99</p>
+          <p>{t('footer.addressLine1')}</p>
+          <p>{t('footer.addressLine2')}</p>
           <a
             href='https://www.google.com/maps'
             target='_blank'
             rel='noopener noreferrer'
             className='text-cyan-400 hover:text-cyan-300 transition-colors duration-300 inline-block mt-2'
           >
-            Voir sur Google Maps
+            {t('footer.viewOnGoogleMaps')}
           </a>
         </div>
 
         {/* Contact */}
         <div className='space-y-4'>
           <h3 className='text-lg font-bold text-white flex items-center justify-center'>
-            <FaPhone className='mr-2' /> Contact
+            <FaPhone className='mr-2' /> {t('footer.contactTitle')}
           </h3>
           <p>
-            Téléphone / WhatsApp:{' '}
+            {t('footer.phone')}{' '}
             <a href='tel:+21658674386' className='hover:text-cyan-300'>
               58 674 386
             </a>
@@ -42,7 +44,7 @@ const Footer = () => {
 
         {/* Social Media */}
         <div className='space-y-4'>
-          <h3 className='text-lg font-bold text-white'>Réseaux sociaux</h3>
+          <h3 className='text-lg font-bold text-white'>{t('footer.socialMediaTitle')}</h3>
           <div className='flex justify-center space-x-6 text-2xl'>
             <a
               href='https://www.instagram.com/catchy_99'
@@ -80,7 +82,7 @@ const Footer = () => {
         </div>
       </div>
       <div className='text-center text-gray-500 mt-10 pt-6 border-t border-gray-700'>
-        <p>&copy; {new Date().getFullYear()} catchy. Tous droits réservés.</p>
+        <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
       </div>
     </footer>
   )

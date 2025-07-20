@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { Product } from '@/types'
 import ProductCard from '@/components/ProductCard'
-import { fetchProducts, fetchCategories } from '@/utils/api'
+import { fetchProducts, fetchCategories } from '@/utils/api';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
   Loader2,
   Search,
@@ -281,21 +282,33 @@ const ProductsPage = ({
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps = async ({ locale }: { locale: string }) => {
   try {
-    const products = await fetchProducts()
-    const categories = await fetchCategories()
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const [products, categories] = await Promise.all([
+      fetchProducts(`${baseUrl}/api/products`),
+      fetchCategories(`${baseUrl}/api/categories`),
+    ]);
+
     return {
-      props: { initialProducts: products, initialCategories: categories },
+      props: {
+        ...(await serverSideTranslations(locale, ['common', 'products'])),
+        initialProducts: products || [],
+        initialCategories: categories || [],
+      },
       revalidate: 60,
-    }
+    };
   } catch (error) {
-    console.error(
-      'Failed to fetch products/categories for products page:',
-      error
-    )
-    return { props: { initialProducts: [], initialCategories: [] } }
+    console.error('Failed to fetch products/categories:', error);
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common', 'products'])),
+        initialProducts: [],
+        initialCategories: [],
+        error: 'Failed to load products. Please try again later.',
+      },
+    };
   }
-}
+};
 
 export default ProductsPage

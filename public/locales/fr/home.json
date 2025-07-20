@@ -1,0 +1,38 @@
+{
+  "seo": {
+    "title": "Catchy - Le style qui vous définit",
+    "description": "Découvrez notre collection d'articles de mode authentiques et sélectionnés."
+  },
+  "hero": {
+    "title": "Le style qui vous définit",
+    "subtitle": "Découvrez notre collection d'articles de mode authentiques et sélectionnés qui correspondent à votre personnalité unique.",
+    "button": "Explorer la collection"
+  },
+  "features": {
+    "collection": {
+      "title": "Collection sélectionnée",
+      "description": "Des styles triés sur le volet pour les créateurs de tendances modernes."
+    },
+    "shipping": {
+      "title": "Livraison rapide",
+      "description": "Recevez votre nouveau look à votre porte en un rien de temps."
+    },
+    "checkout": {
+      "title": "Paiement sécurisé",
+      "description": "Achetez en toute confiance grâce à notre passerelle de paiement sécurisée."
+    }
+  },
+  "trending": {
+    "title": "Tendances actuelles",
+    "subtitle": "Découvrez nos produits les plus populaires."
+  },
+  "categories": {
+    "title": "Acheter par catégorie"
+  },
+  "newsletter": {
+    "title": "Restez à l'affût",
+    "subtitle": "Abonnez-vous à notre newsletter pour les derniers styles, les nouveautés et les offres exclusives.",
+    "placeholder": "Entrez votre email",
+    "button": "S'abonner"
+  }
+}

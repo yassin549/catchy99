@@ -1,0 +1,38 @@
+{
+  "seo": {
+    "title": "Catchy - Style That Defines You",
+    "description": "Discover our collection of authentic and curated fashion items."
+  },
+  "hero": {
+    "title": "Style That Defines You",
+    "subtitle": "Discover our collection of authentic and curated fashion items that speak to your unique personality.",
+    "button": "Explore Collection"
+  },
+  "features": {
+    "collection": {
+      "title": "Curated Collection",
+      "description": "Handpicked styles for the modern trendsetter."
+    },
+    "shipping": {
+      "title": "Fast Shipping",
+      "description": "Get your new look delivered to your door in no time."
+    },
+    "checkout": {
+      "title": "Secure Checkout",
+      "description": "Shop with confidence using our secure payment gateway."
+    }
+  },
+  "trending": {
+    "title": "Trending Now",
+    "subtitle": "Check out our most popular products."
+  },
+  "categories": {
+    "title": "Shop by Category"
+  },
+  "newsletter": {
+    "title": "Stay in the Loop",
+    "subtitle": "Subscribe to our newsletter for the latest styles, new arrivals, and exclusive offers.",
+    "placeholder": "Enter your email",
+    "button": "Subscribe"
+  }
+}

@@ -2,17 +2,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import { ThemeToggle } from '@/components'
+import { useTranslation } from 'next-i18next'
 import { Menu, X, ShoppingCart } from 'lucide-react'
 
 const Navbar = () => {
+  const { t } = useTranslation('common')
   const { toggleCart, cartCount } = useCart()
   const [isOpen, setIsOpen] = useState(false)
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/products', label: 'Products' },
-    { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/', label: t('navbar.home') },
+    { href: '/products', label: t('navbar.products') },
+    { href: '/about', label: t('navbar.about') },
+    { href: '/contact', label: t('navbar.contact') },
   ]
   return (
     <nav className='fixed top-0 left-0 right-0 z-40 bg-glass-light backdrop-blur-md border-b border-white/10 shadow-lg'>

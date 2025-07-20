@@ -1,0 +1,22 @@
+{
+  "navbar": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "footer": {
+    "addressTitle": "Address",
+    "addressLine1": "Av. Mohamed Rached El Baji, Ariana, Tunisia, 2037",
+    "addressLine2": "Ennasser, next to @catchy_outlet99",
+    "viewOnGoogleMaps": "View on Google Maps",
+    "contactTitle": "Contact",
+    "phone": "Phone / WhatsApp:",
+    "socialMediaTitle": "Social Media",
+    "copyright": "© {{year}} catchy. All rights reserved."
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "addedToCart": "added to cart"
+  }
+}

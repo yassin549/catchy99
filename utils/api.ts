@@ -20,8 +20,8 @@ async function fetcher<T>(url: string, tags: string[] = []): Promise<T> {
     }
 }
 
-export const fetchProducts = (): Promise<Product[]> => fetcher<Product[]>('/api/products', ['products']);
+export const fetchProducts = (url: string = '/api/products'): Promise<Product[]> => fetcher<Product[]>(url, ['products']);
 
 export const fetchProductById = (id: string): Promise<Product> => fetcher<Product>(`/api/products/${id}`, [`products:${id}`]);
 
-export const fetchCategories = (): Promise<Category[]> => fetcher<Category[]>('/api/categories', ['categories']);
+export const fetchCategories = (url: string = '/api/categories'): Promise<Category[]> => fetcher<Category[]>(url, ['categories']);
