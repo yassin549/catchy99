@@ -1,4 +1,5 @@
-import { db } from '@/lib/db'
+import { getProducts } from '@/lib/data';
+import { db } from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Product } from '@/types'
 
@@ -17,10 +18,8 @@ export default async function handler(
           : undefined
         const searchQuery = ((req.query.search as string) || '').toLowerCase()
 
-        const data = await db.read()
-        let allProducts = data.products.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        ) // Sort for consistent ordering
+        let allProducts = await getProducts();
+        allProducts.sort((a, b) => a.name.localeCompare(b.name));
 
         if (searchQuery) {
           allProducts = allProducts.filter(

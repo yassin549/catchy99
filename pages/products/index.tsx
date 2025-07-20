@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { Product } from '@/types'
 import ProductCard from '@/components/ProductCard'
-import { fetchProducts, fetchCategories } from '@/utils/api';
+import { getProducts, getCategories } from '@/lib/data';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
   Loader2,
@@ -284,10 +284,9 @@ const ProductsPage = ({
 
 export const getStaticProps = async ({ locale }: { locale: string }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
     const [products, categories] = await Promise.all([
-      fetchProducts(`${baseUrl}/api/products`),
-      fetchCategories(`${baseUrl}/api/categories`),
+      getProducts(),
+      getCategories(),
     ]);
 
     return {
