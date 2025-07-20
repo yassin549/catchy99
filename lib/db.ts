@@ -1,46 +1,45 @@
-import fs from 'fs/promises'
-import path from 'path'
-import { Product, User, Order, Category } from '@/types'
+import { put, get } from '@vercel/blob';
+import { Product, User, Order, Category } from '@/types';
 
 // Define the structure of our database
 export interface DbData {
-  categories: Category[]
-  products: Product[]
-  users: User[]
-  orders: Order[]
+  categories: Category[];
+  products: Product[];
+  users: User[];
+  orders: Order[];
 }
 
-const dbPath = path.join(process.cwd(), 'db.json')
+const DB_BLOB_NAME = 'db.json';
 
 /**
- * A simple, robust database helper that uses native Node.js fs/promises
- * to read from and write to a JSON file, avoiding ESM/CJS module conflicts.
+ * A database helper that uses Vercel Blob storage to read from and write to a JSON file.
  */
 export const db = {
   async read(): Promise<DbData> {
     try {
-      const fileContent = await fs.readFile(dbPath, 'utf-8')
-      return JSON.parse(fileContent)
-    } catch (error: unknown) {
-      // Type guard to check if error is an object with a 'code' property
-      const isFsError = (err: unknown): err is { code: string } => {
-        return typeof err === 'object' && err !== null && 'code' in err
+      const blob = await get(DB_BLOB_NAME);
+      if (!blob) {
+        // If the blob doesn't exist, return a default structure
+        return { products: [], users: [], orders: [], categories: [] };
       }
-
-      if (isFsError(error)) {
-        // If the file doesn't exist, return default structure
-        if (error.code === 'ENOENT') {
-          return { products: [], users: [], orders: [], categories: [] }
-        }
-        // For other file system errors, rethrow them
-        throw error
-      }
-      // If the error is not a file system error, rethrow it
-      throw error
+      const fileContent = await blob.text();
+      return JSON.parse(fileContent);
+    } catch (error) {
+      console.error('Failed to read from Vercel Blob:', error);
+      // In case of error (e.g., network issue), return a safe default
+      return { products: [], users: [], orders: [], categories: [] };
     }
   },
 
   async write(data: DbData): Promise<void> {
-    await fs.writeFile(dbPath, JSON.stringify(data, null, 2), 'utf-8')
+    try {
+      await put(DB_BLOB_NAME, JSON.stringify(data, null, 2), {
+        access: 'public',
+        contentType: 'application/json',
+      });
+    } catch (error) {
+      console.error('Failed to write to Vercel Blob:', error);
+      throw new Error('Could not write to database.');
+    }
   },
-}
+};
