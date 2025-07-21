@@ -55,7 +55,7 @@ export default async function handler(
       // Move the uploaded file
       const newFileName = `${Date.now()}_${imageFile.originalFilename}`;
       const newPath = path.join(uploadsDir, newFileName);
-      await fs.rename(imageFile.filepath, newPath);
+      await fs.copyFile(imageFile.filepath, newPath);
       const productImage = `/uploads/${newFileName}`;
 
       // Create new product object
