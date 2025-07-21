@@ -21,8 +21,7 @@ const NewProductPage = () => {
       formData.append('price', String(data.price));
       formData.append('stock', String(data.stock));
       
-      // Correct the category field name to match the API
-      formData.append('categoryName', data.category); 
+      formData.append('category', data.category); 
 
       // Append the image file
       const imageFile = (data.image as FileList)[0];
