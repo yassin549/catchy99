@@ -21,8 +21,8 @@ export const db = {
       const dbBlob = blobs[0];
 
       if (!dbBlob) {
-        // If the blob doesn't exist, return a default structure
-        return { products: [], users: [], orders: [], categories: [] };
+        // If the blob doesn't exist, the database is not initialized.
+        throw new Error('Database blob not found. Please initialize the database.');
       }
 
       const response = await fetch(dbBlob.url);
