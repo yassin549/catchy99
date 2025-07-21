@@ -10,7 +10,7 @@
     {
       "id": "user-1",
       "email": "admin@catchy.com",
-      "passwordHash": "$2b$10$74ZfDHlY.3vnOyWhx42o7.z3H0bJnLwmRv.PhJ8s7ZBHxUkTDfOQS",
+      "passwordHash": "$2b$10$ElloiZygyGQm1d8zmX.ZIO9J.TVLible0MYWi07gUf4jwIlk43LDS",
       "roles": [
         "admin",
         "user"
