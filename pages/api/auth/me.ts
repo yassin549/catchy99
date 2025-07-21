@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
-import { db } from '../../lib/db';
-import { User } from '../../types';
+import { db } from '@/lib/db';
+import { User } from '@/types';
 
 export default async function me(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
