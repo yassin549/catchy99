@@ -59,25 +59,35 @@ export default async function handler(
       }
       break;
 
-    case 'POST':
+        case 'POST':
       try {
         const form = formidable({});
         const [fields, files] = await form.parse(req);
 
-        const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
-        const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
-        const price = Array.isArray(fields.price) ? parseFloat(fields.price[0]) : parseFloat(fields.price as string);
-        const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
-        const size = Array.isArray(fields.size) ? fields.size[0] : fields.size;
-        const stock = Array.isArray(fields.stock) ? parseInt(fields.stock[0], 10) : parseInt(fields.stock as string, 10);
+        const getFieldValue = (field: string | string[] | undefined): string | undefined => {
+          if (Array.isArray(field)) {
+            return field[0];
+          }
+          return field;
+        };
+
+        const name = getFieldValue(fields.name);
+        const description = getFieldValue(fields.description);
+        const category = getFieldValue(fields.category);
+        const size = getFieldValue(fields.size);
+        const priceStr = getFieldValue(fields.price);
+        const stockStr = getFieldValue(fields.stock);
 
         const imageFile = files.image?.[0];
 
-        if (!name || !price || !category || stock === undefined || !imageFile) {
+        if (!name || !priceStr || !category || !stockStr || !imageFile) {
           return res
             .status(400)
             .json({ message: 'Missing required product fields.' });
         }
+
+        const price = parseFloat(priceStr);
+        const stock = parseInt(stockStr, 10);
 
         const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
         await fs.mkdir(uploadsDir, { recursive: true });
