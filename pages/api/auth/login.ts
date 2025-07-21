@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import * as cookie from 'cookie'
 import { db, DbData } from '@/lib/db'
 import { User } from '@/types'
