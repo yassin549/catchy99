@@ -12,7 +12,6 @@ import { useScrollEffect } from '@/hooks/useScrollEffect';
 
 const Home = ({ featuredProducts, categoriesWithProducts }) => {
   const { t } = useTranslation('home');
-  const heroImageRef = useRef(null);
   const features = [
     {
       icon: <Award size={28} />,
@@ -36,9 +35,6 @@ const Home = ({ featuredProducts, categoriesWithProducts }) => {
     },
   ]
 
-  // Apply scroll-based zoom effect to the hero image.
-  useScrollEffect(heroImageRef, 500, 1.1, 1);
-
   return (
     <>
       <NextSeo
@@ -48,8 +44,8 @@ const Home = ({ featuredProducts, categoriesWithProducts }) => {
 
       <div className='bg-white dark:bg-gray-900 text-gray-800 dark:text-white'>
         {/* Hero Section */}
-        <section data-section className='relative h-[80vh] md:h-screen min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden'>
-          <div ref={heroImageRef} className='absolute inset-0 z-0'>
+        <section data-section className='h-[80vh] md:h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden p-4 md:p-8'>
+          <div className='relative w-full h-full shadow-2xl rounded-lg overflow-hidden group'>
             <Image
               src='/images/brand/3.jpg'
               alt='A stylish person in a vibrant city setting'
@@ -57,29 +53,29 @@ const Home = ({ featuredProducts, categoriesWithProducts }) => {
               sizes='100vw'
               style={{ objectFit: 'cover' }}
               priority
-
+              className='animate-zoom-in-out'
             />
-            <div className='absolute inset-0 dark:bg-gradient-to-t dark:from-black/70 dark:via-black/30 dark:to-transparent'></div>
-          </div>
-          <div className='relative z-10 container mx-auto px-4 flex justify-center items-center'>
-            <div className='bg-black/10 backdrop-blur-lg p-8 md:p-12 text-center text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] mask-fade-edges'>
-              <ScrollAnimator animation='fade-in-up'>
-                <h1 className='text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4'>
-                  {t('hero.title')}
-                </h1>
-              </ScrollAnimator>
-              <ScrollAnimator animation='fade-in-up' className='transition-delay-200'>
-                <p className='max-w-2xl mx-auto text-base sm:text-lg md:text-xl mb-8 font-light'>
-                  {t('hero.subtitle')}
-                </p>
-              </ScrollAnimator>
-              <ScrollAnimator animation='fade-in-up' className='transition-delay-400'>
-                <Link href='/products' legacyBehavior>
-                  <a className='inline-flex items-center justify-center px-8 py-4 bg-indigo-600 border border-transparent rounded-lg font-semibold text-white hover:bg-indigo-700 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl'>
-                    {t('hero.button')} <ArrowRight className='ml-2 h-5 w-5' />
-                  </a>
-                </Link>
-              </ScrollAnimator>
+            {/* Gradient overlay removed */}
+            <div className='relative z-10 h-full container mx-auto px-4 flex justify-center items-center'>
+              <div className='bg-black/10 backdrop-blur-lg p-8 md:p-12 text-center text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] rounded-xl'>
+                <ScrollAnimator animation='fade-in-up'>
+                  <h1 className='text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4'>
+                    {t('hero.title')}
+                  </h1>
+                </ScrollAnimator>
+                <ScrollAnimator animation='fade-in-up' className='transition-delay-200'>
+                  <p className='max-w-2xl mx-auto text-base sm:text-lg md:text-xl mb-8 font-light'>
+                    {t('hero.subtitle')}
+                  </p>
+                </ScrollAnimator>
+                <ScrollAnimator animation='fade-in-up' className='transition-delay-400'>
+                  <Link href='/products' legacyBehavior>
+                    <a className='inline-flex items-center justify-center px-8 py-4 bg-indigo-600 border border-transparent rounded-lg font-semibold text-white hover:bg-indigo-700 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl'>
+                      {t('hero.button')} <ArrowRight className='ml-2 h-5 w-5' />
+                    </a>
+                  </Link>
+                </ScrollAnimator>
+              </div>
             </div>
           </div>
         </section>

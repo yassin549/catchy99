@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @keyframes zoom-in-out {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-zoom-in-out {
+    animation: zoom-in-out 10s ease-in-out infinite;
+  }
+}
+
 @layer utilities {
   .mask-fade-edges {
     mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);
