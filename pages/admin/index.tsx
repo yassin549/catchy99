@@ -55,15 +55,20 @@ const AdminDashboard = () => {
       <h1 className='text-3xl font-bold mb-6'>Admin Dashboard</h1>
 
       {/* Data-driven content */}
-      {(metricsError || dashboardError) && (
-        <div className='text-center text-red-500'>
-          Failed to load dashboard data. Please try again later.
-        </div>
-      )}
-      {(!metrics || !dashboardData) && !(metricsError || dashboardError) && (
-        <div className='text-center'>Loading dashboard insights...</div>
-      )}
-      {metrics && (
+      {/* Unified Loading and Error States */}
+      {(() => {
+        if (metricsError || dashboardError) {
+          return (
+            <div className='text-center text-red-500'>
+              Failed to load dashboard data. Please try again later.
+            </div>
+          );
+        }
+        if (!metrics || !dashboardData) {
+          return <div className='text-center'>Loading dashboard insights...</div>;
+        }
+        // Render content only when all data is available
+        return (
         <>
           {/* KPI Stat Cards */}
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
@@ -122,7 +127,8 @@ const AdminDashboard = () => {
             </div>
           </div>
         </>
-      )}
+        );
+      })()}
 
       {/* Management Section */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
