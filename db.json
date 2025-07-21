@@ -9,8 +9,8 @@
   "users": [
     {
       "id": "user-1",
-      "email": "admin@admin.com",
-      "passwordHash": "$2b$10$IAx5l.x1F/GNCoPuhSRXY.fkyPGUyFGNOEtB5LNY4w./f1OqAvoQy",
+      "email": "admin@catchy.com",
+      "passwordHash": "$2b$10$74ZfDHlY.3vnOyWhx42o7.z3H0bJnLwmRv.PhJ8s7ZBHxUkTDfOQS",
       "roles": [
         "admin",
         "user"
