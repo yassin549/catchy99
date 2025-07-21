@@ -10,43 +10,33 @@ const NewProductPage = () => {
 
   const handleSubmit = async (data: ProductFormData) => {
     setIsSubmitting(true);
+    const toastId = toast.loading('Creating product...');
+
     try {
-      let imageUrl = '';
+      const formData = new FormData();
+      
+      // Append all text fields
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+      formData.append('price', String(data.price));
+      formData.append('stock', String(data.stock));
+      
+      // Correct the category field name to match the API
+      formData.append('categoryName', data.category); 
+
+      // Append the image file
       const imageFile = (data.image as FileList)[0];
-
       if (imageFile) {
-        const formData = new FormData();
-        formData.append('file', imageFile);
-
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!uploadRes.ok) {
-          const errorData = await uploadRes.json();
-          throw new Error(errorData.error || 'Failed to upload image');
-        }
-
-        const uploadData = await uploadRes.json();
-        imageUrl = uploadData.filePath;
+        formData.append('image', imageFile);
       } else {
+        // This should be caught by form validation, but as a safeguard:
         throw new Error('Product image is required.');
       }
 
-      const productData = {
-        ...data,
-        price: Number(data.price),
-        stock: Number(data.stock),
-        image: imageUrl,
-      };
-
       const response = await fetch('/api/products', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData),
+        // Do NOT set Content-Type header, the browser does it automatically for multipart/form-data
+        body: formData,
       });
 
       if (!response.ok) {
@@ -54,12 +44,12 @@ const NewProductPage = () => {
         throw new Error(errorData.message || 'Failed to create product');
       }
 
-      toast.success('Product created successfully!');
+      toast.success('Product created successfully!', { id: toastId });
       router.push('/admin/products');
     } catch (err) {
       const message =
         err instanceof Error ? err.message : 'Could not create product.';
-      toast.error(message);
+      toast.error(message, { id: toastId });
       setIsSubmitting(false);
     }
   };
