@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
-import cookie from 'cookie';
+import { parse } from 'cookie';
 import { db } from '@/lib/db';
 import { User } from '@/types';
 
@@ -9,7 +9,7 @@ export default async function me(req: NextApiRequest, res: NextApiResponse) {
     return res.status(405).end();
   }
 
-  const cookies = cookie.parse(req.headers.cookie || '');
+  const cookies = parse(req.headers.cookie || '');
   const token = cookies.token;
 
   if (!token) {
