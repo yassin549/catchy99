@@ -18,6 +18,11 @@
 }
 
 @layer utilities {
+  .mask-blur-edges {
+    backdrop-filter: blur(4px);
+    mask-image: radial-gradient(ellipse at center, transparent 50%, black 90%);
+  }
+
   .mask-fade-edges {
     mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);

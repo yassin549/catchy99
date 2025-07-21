@@ -44,8 +44,8 @@ const Home = ({ featuredProducts, categoriesWithProducts }) => {
 
       <div className='bg-white dark:bg-gray-900 text-gray-800 dark:text-white'>
         {/* Hero Section */}
-        <section data-section className='h-[80vh] md:h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden p-4 md:p-8'>
-          <div className='relative w-full h-full shadow-2xl rounded-lg overflow-hidden group'>
+        <section data-section className='relative h-[80vh] md:h-screen min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden'>
+          <div className='absolute inset-0 z-0'>
             <Image
               src='/images/brand/3.jpg'
               alt='A stylish person in a vibrant city setting'
@@ -55,27 +55,27 @@ const Home = ({ featuredProducts, categoriesWithProducts }) => {
               priority
               className='animate-zoom-in-out'
             />
-            {/* Gradient overlay removed */}
-            <div className='relative z-10 h-full container mx-auto px-4 flex justify-center items-center'>
-              <div className='bg-black/10 backdrop-blur-lg p-8 md:p-12 text-center text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] rounded-xl'>
-                <ScrollAnimator animation='fade-in-up'>
-                  <h1 className='text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4'>
-                    {t('hero.title')}
-                  </h1>
-                </ScrollAnimator>
-                <ScrollAnimator animation='fade-in-up' className='transition-delay-200'>
-                  <p className='max-w-2xl mx-auto text-base sm:text-lg md:text-xl mb-8 font-light'>
-                    {t('hero.subtitle')}
-                  </p>
-                </ScrollAnimator>
-                <ScrollAnimator animation='fade-in-up' className='transition-delay-400'>
-                  <Link href='/products' legacyBehavior>
-                    <a className='inline-flex items-center justify-center px-8 py-4 bg-indigo-600 border border-transparent rounded-lg font-semibold text-white hover:bg-indigo-700 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl'>
-                      {t('hero.button')} <ArrowRight className='ml-2 h-5 w-5' />
-                    </a>
-                  </Link>
-                </ScrollAnimator>
-              </div>
+          </div>
+          <div className='absolute inset-0 z-10 mask-blur-edges'></div>
+          <div className='relative z-20 container mx-auto px-4 flex justify-center items-center'>
+            <div className='bg-black/10 backdrop-blur-lg p-8 md:p-12 text-center text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] rounded-xl'>
+              <ScrollAnimator animation='fade-in-up'>
+                <h1 className='text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4'>
+                  {t('hero.title')}
+                </h1>
+              </ScrollAnimator>
+              <ScrollAnimator animation='fade-in-up' className='transition-delay-200'>
+                <p className='max-w-2xl mx-auto text-base sm:text-lg md:text-xl mb-8 font-light'>
+                  {t('hero.subtitle')}
+                </p>
+              </ScrollAnimator>
+              <ScrollAnimator animation='fade-in-up' className='transition-delay-400'>
+                <Link href='/products' legacyBehavior>
+                  <a className='inline-flex items-center justify-center px-8 py-4 bg-indigo-600 border border-transparent rounded-lg font-semibold text-white hover:bg-indigo-700 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl'>
+                    {t('hero.button')} <ArrowRight className='ml-2 h-5 w-5' />
+                  </a>
+                </Link>
+              </ScrollAnimator>
             </div>
           </div>
         </section>
