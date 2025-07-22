@@ -52,6 +52,7 @@ export default async function handler(
       const fileContents = await fs.readFile(imageFile.filepath);
       const blob = await put(imageFile.originalFilename as string, fileContents, {
         access: 'public',
+        addRandomSuffix: true,
       });
       const productImage = blob.url;
 
