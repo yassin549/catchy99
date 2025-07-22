@@ -1,5 +1,17 @@
 {
-  "products": [],
+  "products": [
+    {
+      "id": "prod_1753027460289",
+      "name": "yassin",
+      "description": "A stylish and comfortable hoodie.",
+      "price": 500.00,
+      "category": "yassin",
+      "images": [
+        "/uploads/1753027460257-1.jpg"
+      ],
+      "stock": 10
+    }
+  ],
   "categories": [
     {
       "id": "cat_1753027460289",
