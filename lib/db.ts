@@ -40,6 +40,7 @@ export const db = {
       await put(DB_BLOB_NAME, JSON.stringify(data, null, 2), {
         access: 'public',
         contentType: 'application/json',
+        allowOverwrite: true,
       });
     } catch (error) {
       console.error('Failed to write to Vercel Blob:', error);
