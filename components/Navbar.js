@@ -47,7 +47,9 @@ const Navbar = () => {
               })}
             </div>
             <div className='flex items-center space-x-2'>
-              <ThemeToggle />
+              <div className='hidden md:block'>
+                <ThemeToggle />
+              </div>
               <button onClick={toggleCart} className='relative p-2'>
                 <ShoppingCart className='h-6 w-6' />
                 {cartCount > 0 && (
@@ -79,7 +81,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div className='md:hidden' id='mobile-menu'>
-          <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-glass-dark'>
+          <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/80 backdrop-blur-lg rounded-b-2xl border-t border-white/10'>
             {navLinks.map(link => {
               const isActive = router.pathname === link.href;
               return (
@@ -93,6 +95,10 @@ const Navbar = () => {
                 </Link>
               )
             })}
+            <div className='border-t border-gray-700 my-2'></div>
+            <div className='px-3 py-2'>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       )}

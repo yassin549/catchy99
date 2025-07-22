@@ -4,6 +4,8 @@ import { motion, Variants } from 'framer-motion'
 import * as THREE from 'three'
 
 // GLSL Shaders for the glassmorphism effect
+
+
 const vertexShader = `
   varying vec2 vUv;
   void main() {
