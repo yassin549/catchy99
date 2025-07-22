@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
@@ -189,40 +189,32 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const products = await getProducts()
-  const paths = products.map((p: Product) => ({
-    params: { id: p.id.toString() },
-  }))
-  return { paths, fallback: true }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
-    const id = params?.id as string
+    const id = params?.id as string;
     if (!id) {
-      return { notFound: true }
+      return { notFound: true };
     }
-    const product = await getProductById(id)
+    const product = await getProductById(id);
 
     if (!product) {
-      return { notFound: true }
+      return { notFound: true };
     }
 
-    const allProducts = await getProducts()
+    const allProducts = await getProducts();
     const relatedProducts = allProducts
       .filter(
         (p: Product) => p.category === product.category && p.id !== product.id
       )
-      .slice(0, 4)
+      .slice(0, 4);
 
     return {
       props: { product, relatedProducts },
-      revalidate: 60,
-    }
+    };
   } catch (error) {
-    return { notFound: true }
+    console.error('Failed to fetch product:', error);
+    return { notFound: true };
   }
-}
+};
 
 export default ProductDetailPage
