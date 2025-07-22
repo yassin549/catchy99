@@ -3,8 +3,7 @@ import { db } from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Product } from '@/types';
 import formidable, { File } from 'formidable';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 // Disable Next.js body parser for this route
 export const config = {
@@ -49,14 +48,10 @@ export default async function handler(
       }
 
       // Create uploads directory if it doesn't exist
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-      await fs.mkdir(uploadsDir, { recursive: true });
-
-      // Move the uploaded file
-      const newFileName = `${Date.now()}_${imageFile.originalFilename}`;
-      const newPath = path.join(uploadsDir, newFileName);
-      await fs.copyFile(imageFile.filepath, newPath);
-      const productImage = `/uploads/${newFileName}`;
+      const blob = await put(imageFile.originalFilename as string, imageFile, {
+        access: 'public',
+      });
+      const productImage = blob.url;
 
       // Create new product object
       const newProduct: Product = {
