@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Product } from '@/types';
 import formidable, { File } from 'formidable';
 import { put } from '@vercel/blob';
+import { promises as fs } from 'fs';
 
 // Disable Next.js body parser for this route
 export const config = {
@@ -48,7 +49,8 @@ export default async function handler(
       }
 
       // Create uploads directory if it doesn't exist
-      const blob = await put(imageFile.originalFilename as string, imageFile, {
+      const fileContents = await fs.readFile(imageFile.filepath);
+      const blob = await put(imageFile.originalFilename as string, fileContents, {
         access: 'public',
       });
       const productImage = blob.url;
