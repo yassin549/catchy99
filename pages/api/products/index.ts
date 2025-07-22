@@ -70,6 +70,11 @@ export default async function handler(
 
       const data = await db.read();
 
+      // Ensure categories array exists
+      if (!data.categories) {
+        data.categories = [];
+      }
+
       // Add category if it's new
       const categoryExists = data.categories.some((c) => c.name.toLowerCase() === category.toLowerCase());
       if (!categoryExists) {
