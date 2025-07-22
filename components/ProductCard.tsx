@@ -21,8 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }
 
   return (
-    <Link href={`/products/${product.id}`} legacyBehavior>
-      <a className='group block bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-1'>
+    <Link href={`/products/${product.id}`} className='group block bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-1'>
         <div className='relative h-48 sm:h-56 w-full overflow-hidden'>
           <Image
             src={product.images[0]}
@@ -52,7 +51,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </p>
           
         </div>
-      </a>
     </Link>
   )
 }
