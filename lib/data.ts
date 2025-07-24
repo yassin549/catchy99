@@ -45,8 +45,21 @@ export async function updateProduct(id: string, updates: Partial<Product>): Prom
 }
 
 export async function deleteProduct(id: string): Promise<void> {
-  await kv.del(getProductKey(id));
-  await kv.zrem(ALL_PRODUCTS_KEY, id);
+  // First, get the product to find out its category
+  const product = await getProductById(id);
+  if (product && product.category) {
+    // Remove the product from its category set
+    await kv.srem(`category:${product.category}:products`, id);
+  }
+
+  // Delete the main product hash
+  await kv.del(`product:${id}`);
+  
+  // Remove the product ID from the global set of all products
+  await kv.srem('products', id);
+
+  // Remove the product ID from the sorted set used for ordering
+  await kv.zrem('products_by_creation_date', id);
 }
 
 // --- Category Functions ---

@@ -113,6 +113,9 @@ const AdminProductsPage = () => {
           <thead className='bg-white/10 dark:bg-gray-900/10'>
             <tr>
               <th className='px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider'>
+                Image
+              </th>
+              <th className='px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider'>
                 Name
               </th>
               <th className='px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider'>
@@ -135,6 +138,15 @@ const AdminProductsPage = () => {
                 key={product.id}
                 className='hover:bg-white/20 dark:hover:bg-gray-700/50 transition-colors duration-200'
               >
+                <td className='px-6 py-4 whitespace-nowrap'>
+                  {product.images && product.images[0] ? (
+                    <img src={product.images[0]} alt={product.name} className='w-16 h-16 object-cover rounded-md shadow-lg' />
+                  ) : (
+                    <div className='w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center'>
+                      <span className='text-xs text-gray-500'>No Image</span>
+                    </div>
+                  )}
+                </td>
                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white'>
                   {product.name}
                 </td>

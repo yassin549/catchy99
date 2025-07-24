@@ -10,7 +10,7 @@
     "test": "jest --watch",
     "db:init": "tsx scripts/init-db.ts",
     "db:verify": "tsx scripts/verify-db.ts",
-    "db:reset": "tsx --require dotenv/config scripts/reset-db.ts",
+    "db:reset": "tsx --env-file=.env.local scripts/reset-db.ts",
     "prepare": "husky install"
   },
   "dependencies": {
