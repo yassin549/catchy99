@@ -47,7 +47,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   return (
     <>
       <NextSeo
-        title={`${product.name} - Catchy`}
+        title={`${product.name} - Tunis Store`}
         description={product.description}
         openGraph={{
           title: product.name,

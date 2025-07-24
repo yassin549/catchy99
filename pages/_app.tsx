@@ -43,7 +43,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <Head>
-        <title>Catchy</title>
+        <title>Tunis Store</title>
         <link rel="icon" href="/images/brand/logo.jpg" />
       </Head>
       <ThemeProvider>

@@ -30,7 +30,7 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
   return (
     <>
       <Head>
-        <title>Order Confirmation | Catchy</title>
+        <title>Order Confirmation | Tunis Store</title>
       </Head>
       <div className='bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center py-12 px-4'>
         <div className='max-w-2xl w-full mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-12'>

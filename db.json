@@ -21,7 +21,7 @@
   "users": [
     {
       "id": "user-1",
-      "email": "admin@catchy.com",
+      "email": "admin@tunisstore.com",
       "passwordHash": "$2b$10$ElloiZygyGQm1d8zmX.ZIO9J.TVLible0MYWi07gUf4jwIlk43LDS",
       "roles": [
         "admin",

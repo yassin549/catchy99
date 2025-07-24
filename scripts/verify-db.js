@@ -122,12 +122,12 @@ function verifyDB() {
                     console.log('------------------------');
                     if (data.users && data.users.length > 0) {
                         console.log("Found ".concat(data.users.length, " user(s)."));
-                        admin = data.users.find(function (u) { return u.email === 'admin@catchy.com'; });
+                        admin = data.users.find(function (u) { return u.email === 'admin@tunisstore.com'; });
                         if (admin) {
-                            console.log('SUCCESS: Admin user (admin@catchy.com) was found.');
+                            console.log('SUCCESS: Admin user (admin@tunisstore.com) was found.');
                         }
                         else {
-                            console.error('ERROR: Admin user (admin@catchy.com) was NOT found in the database!');
+                            console.error('ERROR: Admin user (admin@tunisstore.com) was NOT found in the database!');
                         }
                     }
                     else {

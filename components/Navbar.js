@@ -28,7 +28,7 @@ const Navbar = () => {
           <div className='flex items-center justify-between h-16 px-6'>
             <div className='flex-shrink-0'>
               <Link href='/' className='text-2xl font-bold' style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
-                catchy
+                Tunis Store
               </Link>
             </div>
             <div className='hidden md:flex items-center space-x-8'>

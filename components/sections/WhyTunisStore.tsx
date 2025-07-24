@@ -15,7 +15,7 @@ const features = [
   },
 ]
 
-const WhyCatchy = () => {
+const WhyTunisStore = () => {
   return (
     <section className='py-20 bg-black text-white'>
       <div className='container mx-auto px-4'>
@@ -37,4 +37,4 @@ const WhyCatchy = () => {
   )
 }
 
-export default WhyCatchy
+export default WhyTunisStore

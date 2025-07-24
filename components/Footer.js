@@ -47,7 +47,7 @@ const Footer = () => {
           <h3 className='text-lg font-bold text-white'>{t('footer.socialMediaTitle')}</h3>
           <div className='flex justify-start md:justify-center space-x-6 text-2xl'>
             <a
-              href='https://www.instagram.com/catchy_99'
+              href='https://www.instagram.com/tunisstore_99'
               target='_blank'
               rel='noopener noreferrer'
               className='hover:text-cyan-400 transition-colors duration-300'
@@ -55,7 +55,7 @@ const Footer = () => {
               <FaInstagram />
             </a>
             <a
-              href='https://www.instagram.com/catchy_outlet99'
+              href='https://www.instagram.com/tunisstore_outlet99'
               target='_blank'
               rel='noopener noreferrer'
               className='hover:text-cyan-400 transition-colors duration-300'
@@ -63,7 +63,7 @@ const Footer = () => {
               <FaInstagram />
             </a>
             <a
-              href='https://www.tiktok.com/@catchy99store'
+              href='https://www.tiktok.com/@tunisstore99'
               target='_blank'
               rel='noopener noreferrer'
               className='hover:text-cyan-400 transition-colors duration-300'
@@ -71,7 +71,7 @@ const Footer = () => {
               <FaTiktok />
             </a>
             <a
-              href='https://www.facebook.com/catchy99'
+              href='https://www.facebook.com/tunisstore'
               target='_blank'
               rel='noopener noreferrer'
               className='hover:text-cyan-400 transition-colors duration-300'

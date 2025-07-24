@@ -99,7 +99,7 @@ const HeroSection = () => {
           animate='visible'
           variants={textVariants}
         >
-          Pourquoi Catchy ?
+          Pourquoi Tunis Store ?
         </motion.h1>
         <motion.p
           className='text-xl md:text-2xl font-light text-white mt-4 tracking-widest'

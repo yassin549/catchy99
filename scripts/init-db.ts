@@ -15,7 +15,7 @@ async function initializeDB() {
 
     const adminUser: User = {
       id: '1',
-      email: 'admin@catchy.com',
+      email: 'admin@tunisstore.com',
       passwordHash,
       roles: ['admin'],
     };

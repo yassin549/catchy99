@@ -13,7 +13,7 @@ const LoginPage = () => {
   const { t } = useTranslation(['login', 'common'])
   const router = useRouter()
   const { login, user } = useAuth()
-  const [email, setEmail] = useState('admin@catchy.com')
+  const [email, setEmail] = useState('admin@tunisstore.com')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -53,7 +53,7 @@ const LoginPage = () => {
                 <a className='flex justify-center'>
                   <Image
                     src='/images/brand/logo.jpg'
-                    alt='Catchy Logo'
+                    alt='Tunis Store Logo'
                     width={80}
                     height={80}
                   />

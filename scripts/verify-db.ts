@@ -44,11 +44,11 @@ async function verifyDB() {
 
     if (data.users && data.users.length > 0) {
       console.log(`Found ${data.users.length} user(s).`);
-      const admin = data.users.find((u: any) => u.email === 'admin@catchy.com');
+      const admin = data.users.find((u: any) => u.email === 'admin@tunisstore.com');
       if (admin) {
-        console.log('SUCCESS: Admin user (admin@catchy.com) was found.');
+        console.log('SUCCESS: Admin user (admin@tunisstore.com) was found.');
       } else {
-        console.error('ERROR: Admin user (admin@catchy.com) was NOT found in the database!');
+        console.error('ERROR: Admin user (admin@tunisstore.com) was NOT found in the database!');
       }
     } else {
       console.error('ERROR: The users array in your database is empty or missing!');

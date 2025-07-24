@@ -188,7 +188,7 @@ const ProductsPage = ({
   return (
     <>
       <NextSeo
-        title='Products - Catchy'
+        title='Products - Tunis Store'
         description='Explore our collection of curated fashion items.'
       />
       <div className='bg-gray-50 dark:bg-gray-900 min-h-screen'>

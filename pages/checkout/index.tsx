@@ -171,7 +171,7 @@ const CheckoutPage = () => {
   return (
     <>
       <Head>
-        <title>Checkout | Catchy</title>
+        <title>Checkout | Tunis Store</title>
       </Head>
       <div className='bg-gray-50 dark:bg-gray-900 min-h-screen'>
         <div className='container mx-auto px-4 py-12 md:py-24'>

@@ -60,7 +60,7 @@ function initializeDB() {
                     passwordHash = _a.sent();
                     adminUser = {
                         id: '1',
-                        email: 'admin@catchy.com',
+                        email: 'admin@tunisstore.com',
                         passwordHash: passwordHash,
                         roles: ['admin'],
                     };
