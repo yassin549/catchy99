@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { Product, Category } from '@/types'
 import ProductCard from '@/components/ProductCard'
-import { getProducts, getCategories } from '@/lib/data';
+import { getCategories } from '@/lib/data';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
   Loader2,
@@ -19,23 +19,28 @@ import {
 const ITEMS_PER_PAGE = 12
 
 const ProductsPage = ({
-  initialProducts,
   initialCategories,
 }: {
-  initialProducts: Product[]
   initialCategories: Category[]
 }) => {
   const router = useRouter()
-  const [products] = useState(initialProducts)
+  const [products, setProducts] = useState<Product[]>([])
   const [categories] = useState(initialCategories || []);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(1)
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalProducts: 0,
+  });
+
   const [filters, setFilters] = useState({
     searchTerm: '',
     category: 'All',
-    maxPrice: 1000,
-    sortBy: 'nameAtoZ',
+    maxPrice: 1000, // Note: maxPrice filter is not implemented in the API yet
+    sortBy: 'nameAtoZ', // Note: sortBy filter is not implemented in the API yet
   })
 
   useEffect(() => {
@@ -55,7 +60,7 @@ const ProductsPage = ({
       ...prev,
       [name]: name === 'maxPrice' ? parseInt(value, 10) : value,
     }))
-    setCurrentPage(1)
+    setPagination(prev => ({ ...prev, currentPage: 1 }))
   }
 
   const resetFilters = () => {
@@ -65,46 +70,45 @@ const ProductsPage = ({
       maxPrice: 1000,
       sortBy: 'nameAtoZ',
     })
-    setCurrentPage(1)
+    setPagination(prev => ({ ...prev, currentPage: 1 }))
   }
 
-  const filteredAndPaginatedProducts = useMemo(() => {
-    if (!products) return { paginated: [], totalPages: 0, totalResults: 0 }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const params = new URLSearchParams({
+          page: pagination.currentPage.toString(),
+          limit: ITEMS_PER_PAGE.toString(),
+          search: filters.searchTerm,
+          category: filters.category,
+          maxPrice: filters.maxPrice.toString(),
+          sortBy: filters.sortBy,
+        });
 
-        const filtered = products.filter(p => {
-      // Assuming p.category is the category name (string)
-      return (
-        (filters.category === 'All' || p.category === filters.category) &&
-        p.price <= filters.maxPrice &&
-        p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
-      )
-    })
+        const response = await fetch(`/api/products?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        
+        setProducts(data.products);
+        setPagination({
+          currentPage: data.currentPage,
+          totalPages: data.totalPages,
+          totalProducts: data.totalProducts,
+        });
 
-    const sorted = [...filtered].sort((a, b) => {
-      switch (filters.sortBy) {
-        case 'priceLowToHigh':
-          return a.price - b.price
-        case 'priceHighToLow':
-          return b.price - a.price
-        case 'nameAtoZ':
-          return a.name.localeCompare(b.name)
-        case 'nameZtoA':
-          return b.name.localeCompare(a.name)
-        default:
-          return 0
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
-    })
+    };
 
-    const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE)
-    const paginated = sorted.slice(
-      (currentPage - 1) * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE
-    )
-
-    return { paginated, totalPages, totalResults: filtered.length }
-  }, [products, filters, currentPage])
-
-  const { paginated, totalPages, totalResults } = filteredAndPaginatedProducts
+    fetchProducts();
+  }, [filters, pagination.currentPage]);
 
   const FilterSidebar = () => (
     <aside
@@ -174,6 +178,22 @@ const ProductsPage = ({
           />
         </div>
         <div>
+          <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+            Sort By
+          </label>
+          <select
+            name='sortBy'
+            value={filters.sortBy}
+            onChange={handleFilterChange}
+            className='w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700'
+          >
+            <option value='nameAtoZ'>Sort: Name A-Z</option>
+            <option value='nameZtoA'>Sort: Name Z-A</option>
+            <option value='priceLowToHigh'>Sort: Price Low-High</option>
+            <option value='priceHighToLow'>Sort: Price High-Low</option>
+          </select>
+        </div>
+        <div>
           <button
             onClick={resetFilters}
             className='w-full text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-300'
@@ -215,29 +235,18 @@ const ProductsPage = ({
                 </button>
                 <div className='flex items-center space-x-4'>
                   <span className='text-sm text-gray-500 dark:text-gray-400'>
-                    Showing {paginated.length} of {totalResults} products
+                    Showing {products.length} of {pagination.totalProducts} products
                   </span>
-                  <select
-                    name='sortBy'
-                    value={filters.sortBy}
-                    onChange={handleFilterChange}
-                    className='p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700'
-                  >
-                    <option value='nameAtoZ'>Sort: Name A-Z</option>
-                    <option value='nameZtoA'>Sort: Name Z-A</option>
-                    <option value='priceLowToHigh'>Sort: Price Low-High</option>
-                    <option value='priceHighToLow'>Sort: Price High-Low</option>
-                  </select>
                 </div>
               </div>
 
-              {!products ? (
+              {isLoading ? (
                 <div className='flex justify-center items-center h-96'>
                   <Loader2 className='w-12 h-12 animate-spin text-indigo-500' />
                 </div>
-              ) : paginated.length > 0 ? (
+              ) : products.length > 0 ? (
                 <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8'>
-                  {paginated.map(product => (
+                  {products.map(product => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
@@ -253,23 +262,23 @@ const ProductsPage = ({
                 </div>
               )}
 
-              {totalPages > 1 && (
+              {pagination.totalPages > 1 && !isLoading && (
                 <div className='flex justify-center items-center mt-12'>
                   <button
-                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
+                    onClick={() => setPagination(p => ({...p, currentPage: Math.max(1, p.currentPage - 1)}))}
+                    disabled={pagination.currentPage === 1}
                     className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed'
                   >
                     <ChevronLeft className='w-6 h-6' />
                   </button>
                   <span className='px-4 py-2 text-lg font-medium'>
-                    Page {currentPage} of {totalPages}
+                    Page {pagination.currentPage} of {pagination.totalPages}
                   </span>
                   <button
                     onClick={() =>
-                      setCurrentPage(p => Math.min(totalPages, p + 1))
+                      setPagination(p => ({...p, currentPage: Math.min(p.totalPages, p.currentPage + 1)}))
                     }
-                    disabled={currentPage === totalPages}
+                    disabled={pagination.currentPage === pagination.totalPages}
                     className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed'
                   >
                     <ChevronRight className='w-6 h-6' />
@@ -286,27 +295,21 @@ const ProductsPage = ({
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => {
   try {
-    const [products, categories] = await Promise.all([
-      getProducts(),
-      getCategories(),
-    ]);
+    const categories = await getCategories();
 
     return {
       props: {
         ...(await serverSideTranslations(locale, ['common', 'products'])),
-        initialProducts: products || [],
         initialCategories: categories || [],
       },
-      
     };
   } catch (error) {
-    console.error('Failed to fetch products/categories:', error);
+    console.error('Failed to fetch categories:', error);
     return {
       props: {
         ...(await serverSideTranslations(locale, ['common', 'products'])),
-        initialProducts: [],
         initialCategories: [],
-        error: 'Failed to load products. Please try again later.',
+        error: 'Failed to load filters. Please try again later.',
       },
     };
   }

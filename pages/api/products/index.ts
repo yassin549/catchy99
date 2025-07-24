@@ -1,5 +1,9 @@
-import { getProducts } from '@/lib/data';
-import { db } from '@/lib/db';
+import {
+  getProducts,
+  createProduct,
+  findCategoryByName,
+  createCategory,
+} from '@/lib/data';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Product } from '@/types';
 import formidable, { File } from 'formidable';
@@ -14,9 +18,7 @@ export const config = {
 };
 
 // Helper to get a single value from formidable fields
-const getFieldValue = (field: string | string[] | undefined): string | undefined => {
-  return Array.isArray(field) ? field[0] : field;
-};
+
 
 // Main handler
 export default async function handler(
@@ -28,16 +30,16 @@ export default async function handler(
       const form = formidable({});
       const [fields, files] = await form.parse(req);
 
-      const name = getFieldValue(fields.name);
-      const description = getFieldValue(fields.description);
-      const category = getFieldValue(fields.category);
-      const size = getFieldValue(fields.size);
-      const priceStr = getFieldValue(fields.price);
-      const stockStr = getFieldValue(fields.stock);
+      const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+      const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+      const categoryName = Array.isArray(fields.category) ? fields.category[0] : fields.category;
+      const size = Array.isArray(fields.size) ? fields.size[0] : fields.size;
+      const priceStr = Array.isArray(fields.price) ? fields.price[0] : fields.price;
+      const stockStr = Array.isArray(fields.stock) ? fields.stock[0] : fields.stock;
 
       const imageFile = (Array.isArray(files.image) ? files.image[0] : files.image) as File | undefined;
 
-      if (!name || !priceStr || !category || !stockStr || !imageFile) {
+      if (!name || !priceStr || !categoryName || !stockStr || !imageFile) {
         return res.status(400).json({ message: 'Missing required product fields.' });
       }
 
@@ -48,41 +50,28 @@ export default async function handler(
         return res.status(400).json({ message: 'Invalid price or stock format.' });
       }
 
-      // Create uploads directory if it doesn't exist
       const fileContents = await fs.readFile(imageFile.filepath);
       const blob = await put(imageFile.originalFilename as string, fileContents, {
         access: 'public',
         addRandomSuffix: true,
       });
-      
 
-      // Create new product object
-      const newProduct: Product = {
-        id: `prod_${new Date().getTime()}`,
+      let category = await findCategoryByName(categoryName);
+      if (!category) {
+        category = await createCategory({ name: categoryName });
+      }
+
+      const newProductData: Omit<Product, 'id'> = {
         name,
         description: description || '',
         price,
         images: [blob.url],
-        category,
+        category: category.name,
         size: size || 'One Size',
         stock,
       };
 
-      const data = await db.read();
-
-      // Ensure categories array exists
-      if (!data.categories) {
-        data.categories = [];
-      }
-
-      // Add category if it's new
-      const categoryExists = data.categories.some((c) => c.name.toLowerCase() === category.toLowerCase());
-      if (!categoryExists) {
-        data.categories.push({ id: `cat_${new Date().getTime()}`, name: category });
-      }
-
-      data.products.push(newProduct);
-      await db.write(data);
+      const newProduct = await createProduct(newProductData);
 
       return res.status(201).json(newProduct);
 
@@ -92,37 +81,62 @@ export default async function handler(
     }
   } else if (req.method === 'GET') {
     try {
-      const page = req.query.page ? parseInt(req.query.page as string, 10) : undefined;
-      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : undefined;
+      // --- Query Parameters --- 
+      const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 12;
       const searchQuery = ((req.query.search as string) || '').toLowerCase();
+      const category = req.query.category as string;
+      const maxPrice = req.query.maxPrice ? parseFloat(req.query.maxPrice as string) : undefined;
+      const sortBy = req.query.sortBy as string;
 
+      // --- Fetching and Filtering --- 
       let allProducts = await getProducts();
-      allProducts.sort((a, b) => a.name.localeCompare(b.name));
 
       if (searchQuery) {
         allProducts = allProducts.filter(
           (p) =>
             p.name.toLowerCase().includes(searchQuery) ||
+            (p.description && p.description.toLowerCase().includes(searchQuery)) ||
             (p.category && p.category.toLowerCase().includes(searchQuery))
         );
       }
 
-      if (page && limit) {
-        const totalProducts = allProducts.length;
-        const totalPages = Math.ceil(totalProducts / limit);
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        const products = allProducts.slice(startIndex, endIndex);
-
-        return res.status(200).json({
-          products,
-          totalProducts,
-          totalPages,
-          currentPage: page,
-        });
+      if (category && category !== 'All') {
+        allProducts = allProducts.filter(p => p.category === category);
       }
 
-      return res.status(200).json(allProducts);
+      if (maxPrice !== undefined) {
+        allProducts = allProducts.filter(p => p.price <= maxPrice);
+      }
+
+      // --- Sorting ---
+      allProducts.sort((a, b) => {
+        switch (sortBy) {
+          case 'priceLowToHigh':
+            return a.price - b.price;
+          case 'priceHighToLow':
+            return b.price - a.price;
+          case 'nameZtoA':
+            return b.name.localeCompare(a.name);
+          case 'nameAtoZ':
+          default:
+            return a.name.localeCompare(b.name);
+        }
+      });
+
+      // --- Pagination ---
+      const totalProducts = allProducts.length;
+      const totalPages = Math.ceil(totalProducts / limit);
+      const startIndex = (page - 1) * limit;
+      const products = allProducts.slice(startIndex, startIndex + limit);
+
+      return res.status(200).json({
+        products,
+        totalProducts,
+        totalPages,
+        currentPage: page,
+      });
+
     } catch (error) {
       return res.status(500).json({ message: 'Failed to retrieve products' });
     }
