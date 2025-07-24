@@ -54,7 +54,7 @@ export default async function handler(
         access: 'public',
         addRandomSuffix: true,
       });
-      const productImage = blob.url;
+      
 
       // Create new product object
       const newProduct: Product = {
@@ -62,7 +62,7 @@ export default async function handler(
         name,
         description: description || '',
         price,
-        images: [productImage],
+        images: [blob.url],
         category,
         size: size || 'One Size',
         stock,

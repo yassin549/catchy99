@@ -284,7 +284,7 @@ const ProductsPage = ({
   )
 }
 
-export const getStaticProps = async ({ locale }: { locale: string }) => {
+export const getServerSideProps = async ({ locale }: { locale: string }) => {
   try {
     const [products, categories] = await Promise.all([
       getProducts(),
@@ -297,7 +297,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
         initialProducts: products || [],
         initialCategories: categories || [],
       },
-      revalidate: 60,
+      
     };
   } catch (error) {
     console.error('Failed to fetch products/categories:', error);
